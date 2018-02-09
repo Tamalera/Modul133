@@ -1,4 +1,4 @@
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <!-- Header -->
@@ -12,7 +12,7 @@
       <div class="modal-body">
           <form class="form-signin" id="signInForm">
             <label for="inputEmail" class="sr-only">Email address</label>
-            <input type="email" id="inputEmail" class="form-control mb-2" placeholder="Email address" required autofocus>
+            <input type="email" id="inputEmail" class="form-control mb-2" placeholder="Email address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required autofocus>
             <label for="inputPassword" class="sr-only">Password</label>
             <input type="password" id="inputPassword" class="form-control mb-2" placeholder="Password" required>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>

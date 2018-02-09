@@ -10,11 +10,11 @@
   <header class="blog-header py-3">
     <div class="row flex-nowrap justify-content-between align-items-center">
     	<div class="col-1 d-flex justify-content-start align-items-center">
-        <a href="mainpage.html"><img src="logo.jpg"></a>
+        <a href="index.php"><img src="logo.jpg"></a>
       </div>
     	<div class="col-11 d-flex justify-content-end align-items-center">
         <div class="justify-content-between">
-      		<button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#exampleModal">
+      		<button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#loginModal">
             Sign In
           </button>
        		<a class="btn btn-sm btn-outline-secondary" href="#">Sign Up</a>
@@ -29,5 +29,5 @@ include "Login/signIn.php";
 ?> 
 
 <script type="text/javascript">
-$('#exampleModal').modal() 
+  ('#loginModal').modal() 
 </script>
