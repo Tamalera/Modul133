@@ -2,83 +2,60 @@
 include "PageManagement/header.php"; 
 ?> 
 
-<!-- Navigation -->
-<div class="nav-scroller py-1 mb-2">
-  <nav class="nav d-flex justify-content-left">
-    <a class="p-2 text-muted" href="#">Thema 1</a>
-    <a class="p-2 text-muted" href="#">Thema 2</a>
-    <a class="p-2 text-muted" href="#">Thema 3</a>
-    <a class="p-2 text-muted" href="#">Thema 4</a>
-  </nav>
-</div>
+<div class="container">
 
-<!-- Main Article Of Page -->
-<div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
-  <div class="col-md-6 px-0">
-    <h1 class="display-4 font-italic">Title of a longer featured blog post</h1>
-    <p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.</p>
-    <p class="lead mb-0"><a href="Blog/singleBlog.php" class="text-white font-weight-bold">Continue reading...</a></p>
-  </div>
-</div>
+  <div class="row row-offcanvas row-offcanvas-right">
+
+  <!-- Main Article Of Page -->
+    <div class="jumbotron">
+      <h1>Title of a longer featured blog post</h1>
+      <p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.</p>
+      <p class="lead mb-0"><a href="Blog/singleBlog.php" class="font-weight-bold">Continue reading...</a></p>
+    </div>
 
 <!-- Single Blogs -->
-<div class="row mb-2">
-  <div class="col-md-6">
-    <div class="card flex-md-row mb-4 box-shadow h-md-250">
-      <div class="card-body d-flex flex-column align-items-start">
-        <h3 class="mb-0">
-          <h2 class="text-dark">TITEL1</h2>
-        </h3>
-        <p class="card-text mb-auto">TEXT OF BLOG1</p>
-        <a href="#">Continue reading...</a>
+
+    <!-- First blog -->
+    <div class="col-md-6">
+      <div class="card flex-md-row mb-4 box-shadow h-md-250">
+        <div class="card-body d-flex flex-column align-items-start">
+          <strong class="d-inline-block mb-2">Author X</strong>
+          <h3 class="mb-0">Nice Recipe</h3>
+          <div class="mb-1 text-muted">Date</div>
+          <p class="card-text mb-auto">Here comes the blog text</p>
+          <a href="#">Continue reading...</a>
+        </div>
+        <img class="card-img-right flex-auto d-none d-md-block" src="https://i.pinimg.com/736x/f4/94/dd/f494dd363c61aabe9a052b566b38589d--cheese-food-cheese-recipes.jpg" alt="Card image cap">
       </div>
     </div>
-  </div>
-  <div class="col-md-6">
-    <div class="card flex-md-row mb-4 box-shadow h-md-250">
-      <div class="card-body d-flex flex-column align-items-start">
-        <h3 class="mb-0">
-          <h2 class="text-dark">TITEL2</h2>
-        </h3>
-        <p class="card-text mb-auto">TEXT OF BLOG2</p>
-        <a href="#">Continue reading...</a>
-      </div>
-    </div>        
-  </div>
-  <div class="col-md-6">
-    <div class="card flex-md-row mb-4 box-shadow h-md-250">
-      <div class="card-body d-flex flex-column align-items-start">
-        <h3 class="mb-0">
-          <h2 class="text-dark">TITEL3</h2>
-        </h3>
-        <p class="card-text mb-auto">TEXT OF BLOG3</p>
-        <a href="#">Continue reading...</a>
+    <!-- Second blog -->
+    <div class="col-md-6">
+      <div class="card flex-md-row mb-4 box-shadow h-md-250">
+        <div class="card-body d-flex flex-column align-items-start">
+          <strong class="d-inline-block mb-2">Author Y</strong>
+          <h3 class="mb-0">Best hoodies! Sooo warm...</h3>
+          <div class="mb-1 text-muted">Date</div>
+          <p class="card-text mb-auto">Here comes the blog text</p>
+          <a href="#">Continue reading...</a>
+        </div>
+        <img class="card-img-right flex-auto d-none d-md-block" src="https://cdnd.lystit.com/200/250/tr/photos/farfetch/6bdc473c/dsquared-Black-Be-Cool-Be-Nice-Print-Hoodie.jpeg" alt="Card image cap">
       </div>
     </div>
-  </div>
-  <div class="col-md-6">
-    <div class="card flex-md-row mb-4 box-shadow h-md-250">
-      <div class="card-body d-flex flex-column align-items-start">
-        <h3 class="mb-0">
-          <h2 class="text-dark">TITEL4</h2>
-        </h3>
-        <p class="card-text mb-auto">TEXT OF BLOG4</p>
-        <a href="#">Continue reading...</a>
-      </div>
-    </div>        
-  </div>
-  <div class="col-md-6">
-    <div class="card flex-md-row mb-4 box-shadow h-md-250">
-      <div class="card-body d-flex flex-column align-items-start">
-        <h3 class="mb-0">
-          <h2 class="text-dark">TITEL5</h2>
-        </h3>
-        <p class="card-text mb-auto">TEXT OF BLOG5</p>
-        <a href="#">Continue reading...</a>
+    <!-- Third blog -->
+    <div class="col-md-6">
+      <div class="card flex-md-row mb-4 box-shadow h-md-250">
+        <div class="card-body d-flex flex-column align-items-start">
+          <strong class="d-inline-block mb-2">Author Z</strong>
+          <h3 class="mb-0">Holidays in France</h3>
+          <div class="mb-1 text-muted">Date</div>
+          <p class="card-text mb-auto">Here comes the blog text</p>
+          <a href="#">Continue reading...</a>
+        </div>
+        <img class="card-img-right flex-auto d-none d-md-block" src="https://assets.marthastewartweddings.com/styles/wmax-200/d43/romantic-destination-france-nice-coast-0117/romantic-destination-france-nice-coast-0117_vert.jpg?itok=CBS3JCns" alt="Card image cap">
       </div>
     </div>
+
   </div>
-</div>
 </div>
 
 <?php 

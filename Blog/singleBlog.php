@@ -29,7 +29,7 @@
 
       <!-- Site footer -->
 <?php 
-include "PageManagement/footer.php"; 
+include "../PageManagement/footer.php"; 
 ?> 
 
 <!-- Bootstrap core JavaScript
