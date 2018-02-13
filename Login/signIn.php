@@ -10,6 +10,7 @@
       </div>
       <!-- Body -->
       <div class="modal-body">
+          <h4 class="mb-3">Sign In</h4>
           <form class="form-signin" id="signInForm">
             <label for="inputEmail" class="sr-only">Email address</label>
             <input type="email" id="inputEmail" class="form-control mb-2" placeholder="Email address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required autofocus>
