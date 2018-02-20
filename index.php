@@ -1,63 +1,70 @@
-<?php 
-include "PageManagement/header.php"; 
+<?php   
+session_start();  
+
+$username_guest = 'guest@test.ch';
+
+$username_admin = 'admin@test.ch';
+$password = 'Admin_123';
+
+
+
+if (isset($_POST["email"]) && isset($_POST["password"])) { 
+
+  if ($_POST["email"] === $username_admin && $_POST["password"] === $password) { 
+    $_SESSION["is_logged_in"] = true;
+  } 
+  else 
+  {
+    ?>  
+    <div align="center">  
+     <p id="danger_msg">Access denied; wrong credentials</p>
+   </div>  
+   <?php
+ } 
+}
+
 ?> 
 
-<div class="container">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script
+  src="http://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
 
-  <div class="row row-offcanvas row-offcanvas-right">
+  <title>Modul 133</title>
 
-  <!-- Main Article Of Page -->
-    <div class="jumbotron">
-      <h1>Title of a longer featured blog post</h1>
-      <p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.</p>
-      <p class="lead mb-0"><a href="Blog/singleBlog.php" class="font-weight-bold">Continue reading...</a></p>
-    </div>
+</head>
 
-<!-- Single Blogs -->
+<body>
 
-    <!-- First blog -->
-    <div class="col-md-6">
-      <div class="card flex-md-row mb-4 box-shadow h-md-250">
-        <div class="card-body d-flex flex-column align-items-start">
-          <strong class="d-inline-block mb-2">Author X</strong>
-          <h3 class="mb-0">Nice Recipe</h3>
-          <div class="mb-1 text-muted">Date</div>
-          <p class="card-text mb-auto">Here comes the blog text</p>
-          <a href="#">Continue reading...</a>
-        </div>
-        <img class="card-img-right flex-auto d-none d-md-block" src="https://i.pinimg.com/736x/f4/94/dd/f494dd363c61aabe9a052b566b38589d--cheese-food-cheese-recipes.jpg" alt="Card image cap">
-      </div>
-    </div>
-    <!-- Second blog -->
-    <div class="col-md-6">
-      <div class="card flex-md-row mb-4 box-shadow h-md-250">
-        <div class="card-body d-flex flex-column align-items-start">
-          <strong class="d-inline-block mb-2">Author Y</strong>
-          <h3 class="mb-0">Best hoodies! Sooo warm...</h3>
-          <div class="mb-1 text-muted">Date</div>
-          <p class="card-text mb-auto">Here comes the blog text</p>
-          <a href="#">Continue reading...</a>
-        </div>
-        <img class="card-img-right flex-auto d-none d-md-block" src="https://cdnd.lystit.com/200/250/tr/photos/farfetch/6bdc473c/dsquared-Black-Be-Cool-Be-Nice-Print-Hoodie.jpeg" alt="Card image cap">
-      </div>
-    </div>
-    <!-- Third blog -->
-    <div class="col-md-6">
-      <div class="card flex-md-row mb-4 box-shadow h-md-250">
-        <div class="card-body d-flex flex-column align-items-start">
-          <strong class="d-inline-block mb-2">Author Z</strong>
-          <h3 class="mb-0">Holidays in France</h3>
-          <div class="mb-1 text-muted">Date</div>
-          <p class="card-text mb-auto">Here comes the blog text</p>
-          <a href="#">Continue reading...</a>
-        </div>
-        <img class="card-img-right flex-auto d-none d-md-block" src="https://assets.marthastewartweddings.com/styles/wmax-200/d43/romantic-destination-france-nice-coast-0117/romantic-destination-france-nice-coast-0117_vert.jpg?itok=CBS3JCns" alt="Card image cap">
-      </div>
-    </div>
+  <?php if(!isset($_SESSION['is_logged_in'])){
+    include "PageManagement/header.php";
+    include "Blog/publicArea.php";
+  }
+  ?> 
 
-  </div>
-</div>
+  <?php if(isset($_SESSION['is_logged_in'])){
+    include "PageManagement/header.php";
+    include "Blog/mainpage.php"; 
+  }
+  ?> 
 
-<?php 
-include "PageManagement/footer.php"; 
-?> 
+  <?php
+  include "PageManagement/footer.php";
+  ?>
+
+    <!-- Bootstrap core JavaScript
+      ================================================== -->
+      <!-- Placed at the end of the document so the pages load faster -->
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+      <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    </body>
+    </html>
