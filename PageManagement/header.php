@@ -15,7 +15,11 @@
             ?> 
             <?php if(isset($_SESSION['is_logged_in'])){
               ?>
+              <div class="nav">
+                <a href="Create_Blog/create.php">Write Blog &nbsp</a>
+                <p class="text-light">Welcome! &nbsp</p>
                 <a class="btn btn-sm btn-outline-secondary" href="./Login/logout.php">Logout</a>
+              </div>
               <?php
             }
             ?> 

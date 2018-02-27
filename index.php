@@ -1,29 +1,81 @@
 <?php   
+
+//Start initial session
 session_start();  
 
-$username_guest = 'guest@test.ch';
+//error_reporting(E_ERROR || E_PARSE);
 
-$username_admin = 'admin@test.ch';
-$password = 'Admin_123';
+if (isset($_POST['register'])){
 
+  $myFile = "registerData.txt";
+  $fh = fopen($myFile, 'a') or die("can't open file");
+  if (FALSE === $fh) {
+      echo 'Can not open file...';
+  }
 
-
-if (isset($_POST["email"]) && isset($_POST["password"])) { 
-
-  if ($_POST["email"] === $username_admin && $_POST["password"] === $password) { 
-    $_SESSION["is_logged_in"] = true;
-  } 
-  else 
-  {
-    ?>  
-    <div align="center">  
-     <p id="danger_msg">Access denied; wrong credentials</p>
-   </div>  
-   <?php
- } 
+  $email = $_POST['emailreg'];
+  //Check for double User
+  if (checkDoubleUser($email) === true) {
+  $email = $_POST['emailreg'] . ":";
+  fwrite($fh, $email);
+  $hashedPass = password_hash($_POST['passwordreg'], PASSWORD_BCRYPT).":";
+  fwrite($fh, $hashedPass);
+  fwrite($fh, "user \n");
+  fclose($fh);
+  $_SESSION["is_logged_in"] = true;
+  }  
+  else {
+    echo "User already exists";
+  }
+  
 }
 
-?> 
+if (isset($_POST["email"]) && isset($_POST["password"])) { 
+  //Open file
+  $file = fopen("registerData.txt", "r") or exit("Unable to open file!");
+  //Output a line of the file until the end is reached
+  while (!feof($file)){
+    $lines = explode("\n", fread($file, filesize("registerData.txt")));
+    for ($i=0; $i < count($lines); $i++) { 
+      $myData = explode(":", $lines[$i]);
+      $firstPart  = $myData[0];
+      $secondPart = $myData[1];   
+
+      if ($_POST["email"] === $firstPart && password_hash($_POST["password"], PASSWORD_BCRYPT) === $secondPart) { 
+        error_reporting(E_ERROR || E_PARSE);
+        $_SESSION["is_logged_in"] = true;
+      } 
+      else 
+      {
+        $_SESSION["is_logged_in"] = false;
+      } 
+    }
+  }
+  //Close file
+  fclose($file);
+} 
+
+
+function checkDoubleUser($name) {
+  $file = fopen("registerData.txt", "r") or exit("Unable to open file!");
+  while (!feof($file)){
+    $lines = explode("\n", fread($file, filesize("registerData.txt")));
+    foreach ($lines as $line) {
+      $myData = explode(":", $line);
+      if ($myData[0] === $name) {
+        return false;
+      }
+      else {
+        return true;
+      }
+    }
+  }  
+  fclose($file);
+}
+
+
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">

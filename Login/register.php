@@ -1,13 +1,12 @@
-
 <div class="container">
   <div class="row">
     <div class="col-md-8 order-md-1">
       <h4 class="mb-3">Register</h4>
-      <form class="needs-validation" id="test" novalidate>
+      <form method="POST" action="index.php" class="needs-validation" id="test" novalidate>
 
         <div class="mb-3">
           <label for="email">Username</label>
-          <input type="email" name="email" class="form-control" id="email" placeholder="you@example.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+          <input type="email" name="emailreg" class="form-control" id="email" placeholder="you@example.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
           <div class="invalid-feedback">
             Please enter a valid email address.
           </div>
@@ -15,7 +14,7 @@
 
         <div class="mb-3">
           <label for="password">Password</label>
-          <input class="form-control" type="password" placeholder="Password" id="password" data-toggle="tooltip" data-placement="top" title="Password has to contain at least one number, a capital letter, a lower case letter, a special character (eg. $,!.&?_), and has a minimal lenght of 8" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
+          <input name="passwordreg" class="form-control" type="password" placeholder="Password" id="password" data-toggle="tooltip" data-placement="top" title="Password has to contain at least one number, a capital letter, a lower case letter, a special character (eg. $,!.&?_), and has a minimal lenght of 8" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
           <div class="invalid-feedback">
             Please enter valid passwort
           </div>
@@ -79,7 +78,7 @@
 
         <hr class="mb-4">
 
-        <button class="btn btn-success btn-lg btn-block" type="submit">Register</button>
+        <button name="register" class="btn btn-success btn-lg btn-block" type="submit">Register</button>
       </form>
     </div>
   </div>
@@ -115,8 +114,6 @@
           if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
-          } else {
-            return confirm('Welcome')
           }
           form.classList.add('was-validated');
         }, false); 
