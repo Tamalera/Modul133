@@ -1,7 +1,7 @@
 
     <nav class="site-header sticky-top py-1 bg-dark">
       <div class="container d-flex flex-column flex-md-row justify-content-between">
-        <a class="navbar-brand text-inverse" href="#">My Blog</a>
+        <a class="navbar-brand text-light">My Blog</a>
 
         <div class="col-11 d-flex justify-content-end align-items-center">
           <div class="justify-content-between">

@@ -5,6 +5,8 @@ session_start();
 
 //error_reporting(E_ERROR || E_PARSE);
 
+
+//Register user: first check if username already exists. If not, save user and encrypted password plus USER
 if (isset($_POST['register'])){
 
   $myFile = "registerData.txt";
@@ -30,6 +32,7 @@ if (isset($_POST['register'])){
   
 }
 
+//For sign in: check for correct username and passord. If all good, log in.
 if (isset($_POST["email"]) && isset($_POST["password"])) { 
   //Open file
   $file = fopen("registerData.txt", "r") or exit("Unable to open file!");
@@ -55,7 +58,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
   fclose($file);
 } 
 
-
+//Funcion which checkes, if user already exists. Gives back boolean value.
 function checkDoubleUser($name) {
   $file = fopen("registerData.txt", "r") or exit("Unable to open file!");
   while (!feof($file)){
@@ -73,6 +76,24 @@ function checkDoubleUser($name) {
   fclose($file);
 }
 
+//Create blog: gets title and content from user; uses date and name.
+if (isset($_POST['createBlog'])){
+  $myFile = "blogData.txt";
+  $fh = fopen($myFile, 'a') or die("can't open file");
+  if (FALSE === $fh) {
+      echo 'Can not open file...';
+  }
+
+  $blogAuthor = $_POST['blogAuthor'] . ":";
+  fwrite($fh, $blogAuthor);
+  $blogTitle = $_POST['blogTitle'] . ":";
+  fwrite($fh, $blogTitle);
+  $date = date('d/m/Y', time()) . ":";
+  fwrite($fh, $date);
+  $blogText = $_POST['blogContent'] . "\n";
+  fwrite($fh, $blogText);
+  fclose($fh);  
+}
 
 
 ?>
