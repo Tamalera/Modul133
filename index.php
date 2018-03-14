@@ -5,7 +5,6 @@ session_start();
 
 //error_reporting(E_ERROR || E_PARSE);
 
-
 //Register user: first check if username already exists. If not, save user and encrypted password plus USER
 if (isset($_POST['register'])){
 
@@ -18,16 +17,20 @@ if (isset($_POST['register'])){
   $email = $_POST['emailreg'];
   //Check for double User
   if (checkDoubleUser($email) === true) {
-  $email = $_POST['emailreg'] . ":";
+  $username = $_POST['emailreg'];
+  $email = "\n".$_POST['emailreg'] . ":";
   fwrite($fh, $email);
-  $hashedPass = password_hash($_POST['passwordreg'], PASSWORD_BCRYPT).":";
+  $hashedPass = password_hash($_POST['passwordreg'], PASSWORD_DEFAULT).":";
   fwrite($fh, $hashedPass);
-  fwrite($fh, "user \n");
+  fwrite($fh, "user");
   fclose($fh);
   $_SESSION["is_logged_in"] = true;
+  $_SESSION["username"] = $username;
   }  
   else {
-    echo "User already exists";
+      echo '<script language="javascript">';
+        echo 'alert("User already exists")';
+      echo '</script>';
   }
   
 }
@@ -42,23 +45,18 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     for ($i=0; $i < count($lines); $i++) { 
       $myData = explode(":", $lines[$i]);
       $firstPart  = $myData[0];
-      $secondPart = $myData[1];   
-
-      if ($_POST["email"] === $firstPart && password_hash($_POST["password"], PASSWORD_BCRYPT) === $secondPart) { 
-        error_reporting(E_ERROR || E_PARSE);
+      $secondPart = isset($myData[1]) ? $myData[1] : null;
+      if ($_POST["email"] === $firstPart && password_verify($_POST["password"], $secondPart)) { 
         $_SESSION["is_logged_in"] = true;
-      } 
-      else 
-      {
-        $_SESSION["is_logged_in"] = false;
-      } 
+        $_SESSION["username"] = $firstPart;
+      }
     }
   }
   //Close file
   fclose($file);
-} 
+}
 
-//Funcion which checkes, if user already exists. Gives back boolean value.
+//Function which checkes, if user already exists. Gives back boolean value.
 function checkDoubleUser($name) {
   $file = fopen("registerData.txt", "r") or exit("Unable to open file!");
   while (!feof($file)){
@@ -84,13 +82,13 @@ if (isset($_POST['createBlog'])){
       echo 'Can not open file...';
   }
 
-  $blogAuthor = $_POST['blogAuthor'] . ":";
+  $blogAuthor = "\n".$_POST['blogAuthor'] . ":";
   fwrite($fh, $blogAuthor);
   $blogTitle = $_POST['blogTitle'] . ":";
   fwrite($fh, $blogTitle);
   $date = date('d/m/Y', time()) . ":";
   fwrite($fh, $date);
-  $blogText = $_POST['blogContent'] . "\n";
+  $blogText = $_POST['blogContent'];
   fwrite($fh, $blogText);
   fclose($fh);  
 }
@@ -132,12 +130,12 @@ if (isset($_POST['createBlog'])){
   include "PageManagement/footer.php";
   ?>
 
-    <!-- Bootstrap core JavaScript
-      ================================================== -->
-      <!-- Placed at the end of the document so the pages load faster -->
-      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-      <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-    </body>
-    </html>
+  <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+  </body>
+</html>

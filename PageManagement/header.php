@@ -17,7 +17,7 @@
               ?>
               <div class="nav">
                 <a href="Create_Blog/create.php">Write Blog &nbsp</a>
-                <p class="text-light">Welcome! &nbsp</p>
+                <p class="text-light"><?php echo("{$_SESSION['username']}");?></p>
                 <a class="btn btn-sm btn-outline-secondary" href="./Login/logout.php">Logout</a>
               </div>
               <?php
@@ -33,5 +33,5 @@ include "Login/signIn.php";
 ?> 
 
 <script type="text/javascript">
-  ('#loginModal').modal() 
+  //('#loginModal').modal() 
 </script>

@@ -22,6 +22,7 @@ session_start();
             <?php if(isset($_SESSION['is_logged_in'])){
               ?>
               <div class="nav">
+                <p class="text-light"><?php echo("{$_SESSION['username']}");?></p>
                 <a class="btn btn-sm btn-outline-secondary" href="../Login/logout.php">Logout</a>
               </div>
               <?php
