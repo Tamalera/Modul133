@@ -82,7 +82,7 @@ if (isset($_POST['createBlog'])){
       echo 'Can not open file...';
   }
 
-  $blogAuthor = "\n".$_POST['blogAuthor'] . ":";
+  $blogAuthor = "\n".$_SESSION["username"] . ":";
   fwrite($fh, $blogAuthor);
   $blogTitle = $_POST['blogTitle'] . ":";
   fwrite($fh, $blogTitle);

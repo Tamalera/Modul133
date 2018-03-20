@@ -1,3 +1,11 @@
+<?php 
+session_start();
+
+  if(!isset($_SESSION['is_logged_in'])){
+    header("Location: http://localhost/PHP_project_Modul133/index.php");
+  }
+?> 
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -6,6 +14,7 @@
     	<link rel="stylesheet" type="text/css" href="styles.css"> 
   </head>
   <body>
+
     <div class="container">
       <header class="blog-header py-3">
         <div class="row flex-nowrap justify-content-between align-items-center">

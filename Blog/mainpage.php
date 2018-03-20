@@ -11,7 +11,7 @@
 
     <!-- Single Blogs -->
 
-   <?php
+<?php
   $data = file("blogData.txt");
   foreach ($data as $line){
   $lineArray = explode(":", $line);

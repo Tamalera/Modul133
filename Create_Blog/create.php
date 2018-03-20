@@ -2,6 +2,9 @@
 
 //error_reporting(E_ERROR || E_PARSE);
 session_start();
+  if(!isset($_SESSION['is_logged_in'])){
+    header("Location: http://localhost/PHP_project_Modul133/index.php");
+  }
 ?>
 <!doctype html>
 <html lang="en">
@@ -41,10 +44,6 @@ session_start();
         <div class="form-group">
           <label for="blog_titel">Titel</label>
           <input name="blogTitle" type="text" class="form-control" id="blog_titel">
-        </div>
-        <div class="form-group">
-          <label for="blog_author">Author</label>
-          <input name="blogAuthor" type="text" class="form-control" id="blog_author">
         </div>
         <div class="form-group">
           <label for="blog_textarea">Blog Content</label>
