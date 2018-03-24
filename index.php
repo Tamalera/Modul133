@@ -17,15 +17,15 @@ if (isset($_POST['register'])){
   $email = $_POST['emailreg'];
   //Check for double User
   if (checkDoubleUser($email) === true) {
-  $username = $_POST['emailreg'];
-  $email = "\n".$_POST['emailreg'] . ":";
-  fwrite($fh, $email);
-  $hashedPass = password_hash($_POST['passwordreg'], PASSWORD_DEFAULT).":";
-  fwrite($fh, $hashedPass);
-  fwrite($fh, "user");
-  fclose($fh);
-  $_SESSION["is_logged_in"] = true;
-  $_SESSION["username"] = $username;
+    $username = $_POST['emailreg'];
+    $email = "\n".$_POST['emailreg'] . ":";
+    fwrite($fh, $email);
+    $hashedPass = password_hash($_POST['passwordreg'], PASSWORD_DEFAULT).":";
+    fwrite($fh, $hashedPass);
+    fwrite($fh, "user");
+    fclose($fh);
+    $_SESSION["is_logged_in"] = true;
+    $_SESSION["username"] = $username;
   }  
   else {
       echo '<script language="javascript">';
@@ -58,19 +58,22 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
 
 //Function which checkes, if user already exists. Gives back boolean value.
 function checkDoubleUser($name) {
+  $checker;
   $file = fopen("registerData.txt", "r") or exit("Unable to open file!");
   while (!feof($file)){
     $lines = explode("\n", fread($file, filesize("registerData.txt")));
-    foreach ($lines as $line) {
-      $myData = explode(":", $line);
-      if ($myData[0] === $name) {
+    for ($i=0; $i < count($lines); $i++) {
+      $myData = explode(":", $lines[$i]);
+      $registeredName = $myData[0];
+      if ($registeredName === $name) {
         return false;
       }
       else {
-        return true;
+        $checker = true;
       }
     }
   }  
+  return $checker;
   fclose($file);
 }
 

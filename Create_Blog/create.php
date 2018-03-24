@@ -3,7 +3,7 @@
 //error_reporting(E_ERROR || E_PARSE);
 session_start();
   if(!isset($_SESSION['is_logged_in'])){
-    header("Location: http://localhost/PHP_project_Modul133/index.php");
+    header("Location: http://infw2017-2a-151-web15.iet-gibb.net/");
   }
 ?>
 <!doctype html>
