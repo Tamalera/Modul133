@@ -43,11 +43,11 @@ session_start();
     <form action="../index.php" class="col-md-8 offset-2" method="POST">
         <div class="form-group">
           <label for="blog_titel">Titel</label>
-          <input name="blogTitle" type="text" class="form-control" id="blog_titel">
+          <input name="blogTitle" type="text" class="form-control" id="blog_titel" required>
         </div>
         <div class="form-group">
           <label for="blog_textarea">Blog Content</label>
-          <input name="blogContent" type="text" class="form-control" id="blog_textarea">
+          <input name="blogContent" type="text" class="form-control" id="blog_textarea" required>
         </div>
         <button name="createBlog" type="submit" class="btn btn-primary">Submit Blog</button>
       </form>
