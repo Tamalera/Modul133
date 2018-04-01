@@ -2,28 +2,38 @@
 
 //Start initial session
 session_start();  
-
+require('config.php');
 //error_reporting(E_ERROR || E_PARSE);
 
 //Register user: first check if username already exists. If not, save user and encrypted password plus USER
 if (isset($_POST['register'])){
 
-  $myFile = "registerData.txt";
-  $fh = fopen($myFile, 'a') or die("can't open file");
-  if (FALSE === $fh) {
-      echo 'Can not open file...';
-  }
+  // $myFile = "registerData.txt";
+  // $fh = fopen($myFile, 'a') or die("can't open file");
+  // if (FALSE === $fh) {
+  //     echo 'Can not open file...';
+  // }
 
   $email = $_POST['emailreg'];
   //Check for double User
   if (checkDoubleUser($email) === true) {
     $username = $_POST['emailreg'];
-    $email = "\n".$_POST['emailreg'] . ":";
-    fwrite($fh, $email);
-    $hashedPass = password_hash($_POST['passwordreg'], PASSWORD_DEFAULT).":";
-    fwrite($fh, $hashedPass);
-    fwrite($fh, "user");
-    fclose($fh);
+    // $email = "\n".$_POST['emailreg'] . ":";
+    // fwrite($fh, $email);
+    $hashedPass = password_hash($_POST['passwordreg'], PASSWORD_DEFAULT);
+    // $hashedPass = password_hash($_POST['passwordreg'], PASSWORD_DEFAULT).":";
+    // fwrite($fh, $hashedPass);
+    // fwrite($fh, "user");
+    // fclose($fh);
+
+    $sql = "INSERT INTO `benutzer`(`username`, `passwordHash`) VALUES ('$username','$hashedPass')";
+    $result = mysqli_query($connection, $sql);
+    if ($result) {
+      echo "ok";
+    } else {
+      echo "fail";
+    }
+
     $_SESSION["is_logged_in"] = true;
     $_SESSION["username"] = $username;
   }  
