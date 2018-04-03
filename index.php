@@ -48,22 +48,47 @@ if (isset($_POST['register'])){
 //For sign in: check for correct username and passord. If all good, log in.
 if (isset($_POST["email"]) && isset($_POST["password"])) { 
   //Open file
-  $file = fopen("registerData.txt", "r") or exit("Unable to open file!");
+  //$file = fopen("registerData.txt", "r") or exit("Unable to open file!");
   //Output a line of the file until the end is reached
-  while (!feof($file)){
-    $lines = explode("\n", fread($file, filesize("registerData.txt")));
-    for ($i=0; $i < count($lines); $i++) { 
-      $myData = explode(":", $lines[$i]);
-      $firstPart  = $myData[0];
-      $secondPart = isset($myData[1]) ? $myData[1] : null;
-      if ($_POST["email"] === $firstPart && password_verify($_POST["password"], $secondPart)) { 
-        $_SESSION["is_logged_in"] = true;
-        $_SESSION["username"] = $firstPart;
-      }
-    }
-  }
+  // while (!feof($file)){
+  //   $lines = explode("\n", fread($file, filesize("registerData.txt")));
+  //   for ($i=0; $i < count($lines); $i++) { 
+  //     $myData = explode(":", $lines[$i]);
+  //     $firstPart  = $myData[0];
+  //     $secondPart = isset($myData[1]) ? $myData[1] : null;
+  //     if ($_POST["email"] === $firstPart && password_verify($_POST["password"], $secondPart)) { 
+  //       $_SESSION["is_logged_in"] = true;
+  //       $_SESSION["username"] = $firstPart;
+  //     }
+  //   }
+  // }
   //Close file
-  fclose($file);
+  // fclose($file);
+
+  // Store input in variables
+  $username = $_POST["email"];
+  $password = $_POST['password'];
+
+  //SQL-Injection should be prevented:
+  $username = stripslashes($username);
+  $password = stripslashes($password);
+
+  // Check user (if exists)
+  $query = "SELECT `username` FROM `benutzer` WHERE  username='$username'";
+  $resultUser = mysqli_query($connection, $query) or die(mysqli_error($connection));
+  $count = mysqli_num_rows($resultUser);
+
+  // Check password for validity -> first get if from DB with same user as before
+  $passwordFromDB = "SELECT `passwordHash` FROM `benutzer` WHERE  username='$username'";
+  $resultPassword = mysqli_query($connection, $passwordFromDB) or die(mysqli_error($connection));
+  $hash = mysqli_fetch_assoc($resultPassword);
+  if ($count == 1 && password_verify($password, $hash["passwordHash"])) {
+    $_SESSION["is_logged_in"] = true;
+    $_SESSION["username"] = $username;
+    echo "Welcome"." ".$username;
+  } else {
+    echo "Access denied";
+  }
 }
 
 //Function which checkes, if user already exists. Gives back boolean value.
