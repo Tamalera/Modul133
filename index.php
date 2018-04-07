@@ -1,15 +1,19 @@
 <?php   
 
 //Start initial session
-session_start();  
+session_start();
+
+//DB connection
 require('config.php');
 //error_reporting(E_ERROR || E_PARSE);
 
 //Register user: first check if username already exists. If not, save user and encrypted password plus USER
 if (isset($_POST['register'])){
 
+  //Assign input variable for registration
   $email = $_POST['emailreg'];
-  //Check for double User
+
+  //Check for double user: only if username is NOT (!) found in DB, user can register
   $queryUser = "SELECT `username` FROM `benutzer` WHERE  username='$email'";
   $resultUsers = mysqli_query($connection, $queryUser) or die(mysqli_error($connection));
   $count = mysqli_num_rows($resultUsers);
@@ -31,6 +35,7 @@ if (isset($_POST['register'])){
 
     }
     else {
+      //Feedback, that username already exists -> no login
       echo '<script language="javascript">';
         echo 'alert("User already exists")';
       echo '</script>';
@@ -41,7 +46,7 @@ if (isset($_POST['register'])){
 //For sign in: check for correct username and passord. If all good, log in.
 if (isset($_POST["email"]) && isset($_POST["password"])) {
 
-  // Store input in variables
+  //Store input in variables
   $username = $_POST["email"];
   $password = $_POST['password'];
 
@@ -49,12 +54,12 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
   $username = stripslashes($username);
   $password = stripslashes($password);
 
-  // Check user (if exists)
+  //Check user (if exists)
   $query = "SELECT `username` FROM `benutzer` WHERE  username='$username'";
   $resultUser = mysqli_query($connection, $query) or die(mysqli_error($connection));
   $count = mysqli_num_rows($resultUser);
 
-  // Check password for validity -> first get if from DB with same user as before
+  //Check password for validity -> first get if from DB with same user as before
   $passwordFromDB = "SELECT `passwordHash` FROM `benutzer` WHERE  username='$username'";
   $resultPassword = mysqli_query($connection, $passwordFromDB) or die(mysqli_error($connection));
   $hash = mysqli_fetch_assoc($resultPassword);
@@ -67,28 +72,32 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
   }
 }
 
-//Function which checkes, if user already exists. Gives back boolean value.
-function checkDoubleUser($name) {
-
-}
 
 //Create blog: gets title and content from user; uses date and name.
-if (isset($_POST['createBlog'])){
-  $myFile = "blogData.txt";
-  $fh = fopen($myFile, 'a') or die("can't open file");
-  if (FALSE === $fh) {
-      echo 'Can not open file...';
-  }
+if (isset($_POST["createBlog"])){
 
-  $blogAuthor = "\n".$_SESSION["username"] . ":";
-  fwrite($fh, $blogAuthor);
-  $blogTitle = $_POST['blogTitle'] . ":";
-  fwrite($fh, $blogTitle);
-  $date = date('d/m/Y', time()) . ":";
-  fwrite($fh, $date);
-  $blogText = $_POST['blogContent'];
-  fwrite($fh, $blogText);
-  fclose($fh);  
+  //Get all data you need from user (date is added automatically)
+  $blogTitle = $_POST["blogTitle"];
+  $blogContent = $_POST["blogContent"];
+  $blogAuthor = $_SESSION["username"];
+  //$date = date('d/m/Y', time());
+
+  //SQL-Injection should be prevented:
+  $blogTitle = stripslashes($blogTitle);
+  $blogContent = stripslashes($blogContent);
+  $blogAuthor = stripslashes($blogAuthor);
+  //$date = stripslashes($date);
+
+  //Get author ID
+  $userID = "SELECT `userID` FROM `benutzer` WHERE  username='$blogAuthor'";
+  $resultUserID = mysqli_query($connection, $userID) or die(mysqli_error($connection));
+  $ID = mysqli_fetch_assoc($resultUserID);
+  $userIDForDB = $ID["userID"];
+
+  //Add blog to DB
+  $insertBlog = "INSERT INTO `blog`(`title`, `blogText`, `user_id`) VALUES ('$blogTitle','$blogContent','$userIDForDB')";
+  $result = mysqli_query($connection, $insertBlog);
+
 }
 
 

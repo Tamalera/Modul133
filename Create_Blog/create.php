@@ -47,7 +47,7 @@ session_start();
         </div>
         <div class="form-group">
           <label for="blog_textarea">Blog Content</label>
-          <input name="blogContent" type="text" class="form-control" id="blog_textarea" required>
+          <textarea name="blogContent" type="text" class="form-control" id="blog_textarea" required></textarea>
         </div>
         <button name="createBlog" type="submit" class="btn btn-primary">Submit Blog</button>
       </form>
