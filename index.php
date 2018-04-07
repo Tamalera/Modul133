@@ -8,23 +8,15 @@ require('config.php');
 //Register user: first check if username already exists. If not, save user and encrypted password plus USER
 if (isset($_POST['register'])){
 
-  // $myFile = "registerData.txt";
-  // $fh = fopen($myFile, 'a') or die("can't open file");
-  // if (FALSE === $fh) {
-  //     echo 'Can not open file...';
-  // }
-
   $email = $_POST['emailreg'];
   //Check for double User
-  if (checkDoubleUser($email) === true) {
+  $queryUser = "SELECT `username` FROM `benutzer` WHERE  username='$email'";
+  $resultUsers = mysqli_query($connection, $queryUser) or die(mysqli_error($connection));
+  $count = mysqli_num_rows($resultUsers);
+
+  if ($count == 0) {  
     $username = $_POST['emailreg'];
-    // $email = "\n".$_POST['emailreg'] . ":";
-    // fwrite($fh, $email);
     $hashedPass = password_hash($_POST['passwordreg'], PASSWORD_DEFAULT);
-    // $hashedPass = password_hash($_POST['passwordreg'], PASSWORD_DEFAULT).":";
-    // fwrite($fh, $hashedPass);
-    // fwrite($fh, "user");
-    // fclose($fh);
 
     $sql = "INSERT INTO `benutzer`(`username`, `passwordHash`) VALUES ('$username','$hashedPass')";
     $result = mysqli_query($connection, $sql);
@@ -36,34 +28,18 @@ if (isset($_POST['register'])){
 
     $_SESSION["is_logged_in"] = true;
     $_SESSION["username"] = $username;
-  }  
-  else {
+
+    }
+    else {
       echo '<script language="javascript">';
         echo 'alert("User already exists")';
       echo '</script>';
-  }
+    }
   
 }
 
 //For sign in: check for correct username and passord. If all good, log in.
-if (isset($_POST["email"]) && isset($_POST["password"])) { 
-  //Open file
-  //$file = fopen("registerData.txt", "r") or exit("Unable to open file!");
-  //Output a line of the file until the end is reached
-  // while (!feof($file)){
-  //   $lines = explode("\n", fread($file, filesize("registerData.txt")));
-  //   for ($i=0; $i < count($lines); $i++) { 
-  //     $myData = explode(":", $lines[$i]);
-  //     $firstPart  = $myData[0];
-  //     $secondPart = isset($myData[1]) ? $myData[1] : null;
-  //     if ($_POST["email"] === $firstPart && password_verify($_POST["password"], $secondPart)) { 
-  //       $_SESSION["is_logged_in"] = true;
-  //       $_SESSION["username"] = $firstPart;
-  //     }
-  //   }
-  // }
-  //Close file
-  // fclose($file);
+if (isset($_POST["email"]) && isset($_POST["password"])) {
 
   // Store input in variables
   $username = $_POST["email"];
@@ -93,23 +69,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
 
 //Function which checkes, if user already exists. Gives back boolean value.
 function checkDoubleUser($name) {
-  $checker;
-  $file = fopen("registerData.txt", "r") or exit("Unable to open file!");
-  while (!feof($file)){
-    $lines = explode("\n", fread($file, filesize("registerData.txt")));
-    for ($i=0; $i < count($lines); $i++) {
-      $myData = explode(":", $lines[$i]);
-      $registeredName = $myData[0];
-      if ($registeredName === $name) {
-        return false;
-      }
-      else {
-        $checker = true;
-      }
-    }
-  }  
-  return $checker;
-  fclose($file);
+
 }
 
 //Create blog: gets title and content from user; uses date and name.
