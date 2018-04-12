@@ -24,7 +24,10 @@ while($row = mysqli_fetch_array($resultAllBlogs))
       $old = $row['user_id'];
     }
     echo '<div class="card m-1">';
-      echo '<div class="card-header">Posted on: '.$row['blogDate'].'</div>';
+      echo '<div class="card-header">
+              Posted on: '.$row['blogDate'].'
+              <div class="text-right">'.$row['likes'].' likes</div>
+            </div>';
       echo '<div class="card-body">';
         echo '<h5 class="card-title">'.$row['title'].'</h5>';                
         echo '<p class="card-text">'.$row['blogText'].'</p>';          

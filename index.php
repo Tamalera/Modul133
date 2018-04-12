@@ -99,6 +99,33 @@ if (isset($_POST["createBlog"])){
   $result = mysqli_query($connection, $insertBlog);
 
 }
+
+//Edit blog: gets title and content from user; uses date and name.
+if (isset($_POST["editBlog"])){
+
+  //Get all data you need from user (date is added automatically)
+  $blogTitle = $_POST["blogTitle"];
+  $blogContent = $_POST["blogContent"];
+  $blogAuthor = $_SESSION["username"];
+  $date = date('d/m/Y', time());
+
+  //SQL-Injection should be prevented:
+  $blogTitle = stripslashes($blogTitle);
+  $blogContent = stripslashes($blogContent);
+  $blogAuthor = stripslashes($blogAuthor);
+  $date = stripslashes($date);
+
+  //Get author ID
+  $userID = "SELECT `userID` FROM `benutzer` WHERE  username='$blogAuthor'";
+  $resultUserID = mysqli_query($connection, $userID) or die(mysqli_error($connection));
+  $ID = mysqli_fetch_assoc($resultUserID);
+  $userIDForDB = $ID["userID"];
+
+  //Add blog to DB
+  //$updateBlog = "UPDATE blog SET title=$blogTitle, blogText=$blogContent WHERE user_id=$userIDForDB AND blogID=;
+  //$result = mysqli_query($connection, $updateBlog);
+
+}
 ?>
 
 <!DOCTYPE html>

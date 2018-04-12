@@ -34,13 +34,14 @@ while($row = mysqli_fetch_array($resultAllBlogs))
       echo '<div class="card-header">
         Posted on: '.$row['blogDate'].'
         <button onclick="this.disabled = true" class="btn btn-outline-warning btn-sm active">Like</button>
+        '.$row['likes'].'
       </div>';
       echo '<div class="card-body">';
         echo '<h5 class="card-title">'.$row['title'].'</h5>';                
         echo '<p class="card-text">'.$row['blogText'].'</p>';  
         //If user is logged in usr -> blogs can be edited
         if ($row['username'] == $_SESSION["username"]) {
-          echo '<button class="btn btn-primary" type="submit", value='.$row['user_id'].'>Edit</button>';
+          echo '<a href="Edit_Blog/edit.php" class="btn btn-info" value='.$row['user_id'].'>Edit</a>';
         }
       echo '</div>';
     echo '</div>';
