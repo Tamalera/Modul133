@@ -99,8 +99,6 @@ if (isset($_POST["createBlog"])){
   $result = mysqli_query($connection, $insertBlog);
 
 }
-
-
 ?>
 
 <!DOCTYPE html>

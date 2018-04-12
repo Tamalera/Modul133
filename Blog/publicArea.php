@@ -27,7 +27,7 @@ while($row = mysqli_fetch_array($resultAllBlogs))
       echo '<div class="card-header">Posted on: '.$row['blogDate'].'</div>';
       echo '<div class="card-body">';
         echo '<h5 class="card-title">'.$row['title'].'</h5>';                
-        echo '<p class="card-text">'.$row['blogText'].'</p>';            
+        echo '<p class="card-text">'.$row['blogText'].'</p>';          
       echo '</div>';
     echo '</div>';
 }

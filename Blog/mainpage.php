@@ -1,5 +1,4 @@
 <div class="container">
-
   <div class="row row-offcanvas row-offcanvas-right">
 
     <!-- Main Article Of Page -->
@@ -10,24 +9,46 @@
     </div>
 
     <!-- Single Blogs -->
-
 <?php
-  $data = file("blogData.txt");
-  foreach ($data as $line){
-  $lineArray = explode(":", $line);
-  list($lAuthor, $lTitle, $lDatum, $lContent) = $lineArray;
-  print <<< HERE
-  <div class="card m-1">
-    <div class="card-header">
-      $lAuthor posted on $lDatum
-    </div>
-    <div class="card-body">
-      <h5 class="card-title">$lTitle</h5>
-      <p class="card-text">$lContent</p>
-    </div>
-  </div>
-HERE;
-  }
- ?>
+
+//Get all Blogs, already sorted by blogger and date
+$queryAllBlogs = "SELECT * FROM blog LEFT JOIN benutzer ON benutzer.userID = blog.user_id ORDER BY user_id, blogDate DESC";
+$resultAllBlogs = mysqli_query($connection, $queryAllBlogs) or die(mysqli_error($connection));
+
+$old = "";
+
+//Start list for displaying blogs
+echo '<div class="card m-1 col-12">';
+  echo  '<ul class="list-group list-group-flush">';
+
+//Loop through blogs
+while($row = mysqli_fetch_array($resultAllBlogs))
+{  
+    //Sort by user
+    if ($old != $row['user_id'])
+    {
+      echo '<li class="randomBackground list-group-item mt-1"><strong>Post from: '.$row['username'].'</strong></li>';
+      $old = $row['user_id'];
+    }
+    echo '<div class="card m-1">';
+      echo '<div class="card-header">
+        Posted on: '.$row['blogDate'].'
+        <button onclick="this.disabled = true" class="btn btn-outline-warning btn-sm active">Like</button>
+      </div>';
+      echo '<div class="card-body">';
+        echo '<h5 class="card-title">'.$row['title'].'</h5>';                
+        echo '<p class="card-text">'.$row['blogText'].'</p>';  
+        //If user is logged in usr -> blogs can be edited
+        if ($row['username'] == $_SESSION["username"]) {
+          echo '<button class="btn btn-primary" type="submit", value='.$row['user_id'].'>Edit</button>';
+        }
+      echo '</div>';
+    echo '</div>';
+}
+
+//End of list
+  echo  '</ul>';
+echo '</div>';
+?>
   </div>
 </div>
