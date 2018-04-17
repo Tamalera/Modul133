@@ -14,21 +14,20 @@ if (isset($_POST['register'])){
   $email = $_POST['emailreg'];
 
   //Check for double user: only if username is NOT (!) found in DB, user can register
-  $queryUser = "SELECT `username` FROM `benutzer` WHERE  username='$email'";
-  $resultUsers = mysqli_query($connection, $queryUser) or die(mysqli_error($connection));
-  $count = mysqli_num_rows($resultUsers);
+  $getUserSQL = 'SELECT username FROM benutzer WHERE username = ?';
+  $statementGetUser = $PDOconnection->prepare($getUserSQL);
+  $statementGetUser->execute([$email]);
+  $user = $statementGetUser->fetch();
+  $count = $statementGetUser->rowCount();
 
   if ($count == 0) {  
     $username = $_POST['emailreg'];
     $hashedPass = password_hash($_POST['passwordreg'], PASSWORD_DEFAULT);
 
-    $sql = "INSERT INTO `benutzer`(`username`, `passwordHash`) VALUES ('$username','$hashedPass')";
-    $result = mysqli_query($connection, $sql);
-    if ($result) {
-      echo "ok";
-    } else {
-      echo "fail";
-    }
+    $getPasswordSQL = 'INSERT INTO benutzer(username, passwordHash) VALUES(:username, :passwordHash)';
+    $statementPassword = $PDOconnection->prepare($getPasswordSQL);
+    $statementPassword->execute(['username' => $username, 'passwordHash' => $hashedPass]);
+    echo "ok";
 
     $_SESSION["is_logged_in"] = true;
     $_SESSION["username"] = $username;
@@ -55,14 +54,17 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
   $password = stripslashes($password);
 
   //Check user (if exists)
-  $query = "SELECT `username` FROM `benutzer` WHERE  username='$username'";
-  $resultUser = mysqli_query($connection, $query) or die(mysqli_error($connection));
-  $count = mysqli_num_rows($resultUser);
+  $checkUserSQL = 'SELECT username FROM benutzer WHERE  username = ?';
+  $statementcheckUser = $PDOconnection->prepare($checkUserSQL);
+  $statementcheckUser->execute([$username]);
+  $count = $statementcheckUser->rowCount();
 
   //Check password for validity -> first get if from DB with same user as before
-  $passwordFromDB = "SELECT `passwordHash` FROM `benutzer` WHERE  username='$username'";
-  $resultPassword = mysqli_query($connection, $passwordFromDB) or die(mysqli_error($connection));
-  $hash = mysqli_fetch_assoc($resultPassword);
+  $checkPassworHashSQL = 'SELECT passwordHash FROM benutzer WHERE  username = ?';
+  $statementcheckPassworHash = $PDOconnection->prepare($checkPassworHashSQL);
+  $statementcheckPassworHash->execute([$username]);
+  $hash = $user = $statementcheckPassworHash->fetch(PDO::FETCH_ASSOC);
+
   if ($count == 1 && password_verify($password, $hash["passwordHash"])) {
     $_SESSION["is_logged_in"] = true;
     $_SESSION["username"] = $username;
@@ -89,14 +91,18 @@ if (isset($_POST["createBlog"])){
   //$date = stripslashes($date);
 
   //Get author ID
-  $userID = "SELECT `userID` FROM `benutzer` WHERE  username='$blogAuthor'";
-  $resultUserID = mysqli_query($connection, $userID) or die(mysqli_error($connection));
-  $ID = mysqli_fetch_assoc($resultUserID);
-  $userIDForDB = $ID["userID"];
+  $getUserByIdSQL = 'SELECT userID FROM benutzer WHERE  username = ?';
+  $statementGetUserById = $PDOconnection->prepare($getUserByIdSQL);
+  $statementGetUserById->execute([$blogAuthor]);
+  $ID = $statementGetUserById->fetch();
+
+  $userIDForDB = $ID->userID;
 
   //Add blog to DB
-  $insertBlog = "INSERT INTO `blog`(`title`, `blogText`, `user_id`) VALUES ('$blogTitle','$blogContent','$userIDForDB')";
-  $result = mysqli_query($connection, $insertBlog);
+  $insertBlogSQL = 'INSERT INTO blog(title, blogText, user_id) VALUES (:blogTitle, :blogContent, :userIDForDB)';
+  $statementInsertBlog = $PDOconnection->prepare($insertBlogSQL);
+  $statementInsertBlog->execute(['blogTitle' => $blogTitle, 'blogContent' => $blogContent, 'userIDForDB' => $userIDForDB]);
+  echo "Blog added";
 
 }
 
@@ -116,9 +122,11 @@ if (isset($_POST["editBlog"])){
   $date = stripslashes($date);
 
   //Get author ID
-  $userID = "SELECT `userID` FROM `benutzer` WHERE  username='$blogAuthor'";
-  $resultUserID = mysqli_query($connection, $userID) or die(mysqli_error($connection));
-  $ID = mysqli_fetch_assoc($resultUserID);
+  $getUserByIdSQL = 'SELECT userID FROM benutzer WHERE  username = ?';
+  $statementGetUserById = $PDOconnection->prepare($getUserByIdSQL);
+  $statementGetUserById->execute([$blogAuthor]);
+  $ID = $statementGetUserById->fetch();
+
   $userIDForDB = $ID["userID"];
 
   //Add blog to DB
