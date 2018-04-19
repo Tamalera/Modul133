@@ -7,6 +7,7 @@ session_start();
 require('config.php');
 //error_reporting(E_ERROR || E_PARSE);
 
+//*** REGISTRATION ***//
 //Register user: first check if username already exists. If not, save user and encrypted password plus USER
 if (isset($_POST['register'])){
 
@@ -42,6 +43,7 @@ if (isset($_POST['register'])){
   
 }
 
+//*** SIGN IN ***//
 //For sign in: check for correct username and passord. If all good, log in.
 if (isset($_POST["email"]) && isset($_POST["password"])) {
 
@@ -74,7 +76,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
   }
 }
 
-
+//*** CREATE BLOG ***//
 //Create blog: gets title and content from user; uses date and name.
 if (isset($_POST["createBlog"])){
 
@@ -82,13 +84,11 @@ if (isset($_POST["createBlog"])){
   $blogTitle = $_POST["blogTitle"];
   $blogContent = $_POST["blogContent"];
   $blogAuthor = $_SESSION["username"];
-  //$date = date('d/m/Y', time());
 
   //SQL-Injection should be prevented:
   $blogTitle = stripslashes($blogTitle);
   $blogContent = stripslashes($blogContent);
   $blogAuthor = stripslashes($blogAuthor);
-  //$date = stripslashes($date);
 
   //Get author ID
   $getUserByIdSQL = 'SELECT userID FROM benutzer WHERE  username = ?';
@@ -106,20 +106,21 @@ if (isset($_POST["createBlog"])){
 
 }
 
+//*** EDIT BLOG ***//
 //Edit blog: gets title and content from user; uses date and name.
-if (isset($_POST["editBlog"])){
+if (isset($_POST["editBlog"]) && isset($_POST["blogID"])){
 
   //Get all data you need from user (date is added automatically)
+  $blogID = $_POST["blogID"];
   $blogTitle = $_POST["blogTitle"];
   $blogContent = $_POST["blogContent"];
   $blogAuthor = $_SESSION["username"];
-  $date = date('d/m/Y', time());
+  //$date = date('d/m/Y', time());
 
   //SQL-Injection should be prevented:
   $blogTitle = stripslashes($blogTitle);
   $blogContent = stripslashes($blogContent);
   $blogAuthor = stripslashes($blogAuthor);
-  $date = stripslashes($date);
 
   //Get author ID
   $getUserByIdSQL = 'SELECT userID FROM benutzer WHERE  username = ?';
@@ -127,13 +128,32 @@ if (isset($_POST["editBlog"])){
   $statementGetUserById->execute([$blogAuthor]);
   $ID = $statementGetUserById->fetch();
 
-  $userIDForDB = $ID["userID"];
+  $userIDForDB = $ID->userID;
 
   //Add blog to DB
-  //$updateBlog = "UPDATE blog SET title=$blogTitle, blogText=$blogContent WHERE user_id=$userIDForDB AND blogID=;
-  //$result = mysqli_query($connection, $updateBlog);
-
+  $updateBlogSQL = 'UPDATE blog SET title = :title, blogText = :content WHERE blogID = :bid AND user_id = :uid';
+  $statementUpdateBlog = $PDOconnection->prepare($updateBlogSQL);
+  $statementUpdateBlog->execute(['title' => $blogTitle, 'content' => $blogContent, 'bid' => $blogID, 'uid' => $userIDForDB]);
 }
+
+//*** DELETE BLOG ***//
+if (isset($_POST["action"]) && isset($_POST["bid_del"])) {
+  //Get user (the one logged in)
+  $loggedUser = $_SESSION["username"];
+
+  $getUserByIdSQL = 'SELECT userID FROM benutzer WHERE  username = ?';
+  $statementGetUserById = $PDOconnection->prepare($getUserByIdSQL);
+  $statementGetUserById->execute([$loggedUser]);
+  $ID = $statementGetUserById->fetch();
+
+  $userIDForDB = $ID->userID;
+
+  //Delete blog
+  $deleteBlogSQL = 'DELETE FROM blog WHERE blogID = :bid AND user_id = :uid';
+  $statementDeleteBlog = $PDOconnection->prepare($deleteBlogSQL);
+  $statementDeleteBlog->execute(['bid' => $_POST["bid_del"], 'uid' => $userIDForDB]);
+}
+
 ?>
 
 <!DOCTYPE html>

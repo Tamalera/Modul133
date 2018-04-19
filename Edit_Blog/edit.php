@@ -1,9 +1,33 @@
 <?php   
+require('../config.php');
 
 //error_reporting(E_ERROR || E_PARSE);
 session_start();
   if(!isset($_SESSION['is_logged_in'])){
     header("Location: http://infw2017-2a-151-web15.iet-gibb.net/");
+  } 
+  else 
+  {
+    if ($_POST['action'] && $_POST['id']) {
+      if ($_POST['action'] == 'Edit') {
+        //Get the blog with send id and logged in user: first user id of user
+        $getUserByIdSQL = 'SELECT userID FROM benutzer WHERE  username = ?';
+        $statementGetUserById = $PDOconnection->prepare($getUserByIdSQL);
+        $statementGetUserById->execute([$_SESSION['username']]);
+        $ID = $statementGetUserById->fetch();
+
+        $userIDForDB = $ID->userID;
+
+        $getBlogToEditSQL = 'SELECT * FROM blog WHERE blogID = :bid AND user_id = :uid';
+        $statementGetBlogToEdit = $PDOconnection->prepare($getBlogToEditSQL);
+        $statementGetBlogToEdit->execute(['bid' => $_POST['id'], 'uid' => $userIDForDB]);
+        $blogToEdit = $statementGetBlogToEdit->fetch();
+
+        $blogID = $blogToEdit->blogID;
+        $blogTitle = $blogToEdit->title;
+        $blogBody = $blogToEdit->blogText;
+      }
+    }
   }
 ?>
 <!doctype html>
@@ -42,14 +66,14 @@ session_start();
     ?>
     <div class="col-md-8 offset-2">
       <form action="../index.php" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="blogID" value="BLOG_ID"/>
+        <input type="hidden" name="blogID" value="<?php echo $blogID; ?>""/>
           <div class="form-group">
             <label for="blog_titel">Titel</label>
-            <input name="blogTitle" type="text" class="form-control" id="blog_titel" value="XXX" required>
+            <input name="blogTitle" type="text" class="form-control" id="blog_titel" value="<?php echo "{$blogTitle}";?>" required>
           </div>
           <div class="form-group">
             <label for="blog_textarea">Blog Content</label>
-            <textarea name="blogContent" type="text" class="form-control" id="blog_textarea" required>XXX</textarea>
+            <textarea name="blogContent" type="text" class="form-control" id="blog_textarea" required><?php echo("{$blogBody}");?></textarea>
           </div>
           <input class="m-2" type="file" name="picUpload" id="picUpload"> <br>
           <button name="editBlog" type="submit" class="btn btn-primary">Submit Blog</button>
