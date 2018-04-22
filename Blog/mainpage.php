@@ -29,26 +29,27 @@ foreach($allBlogs as $blog)
     //Sort by user
     if ($old != $blog->user_id)
     {
-      echo '<li class="randomBackground list-group-item mt-1"><strong>Post from: '.$blog->user_id.'</strong></li>';
+      echo '<li class="randomBackground list-group-item mt-1"><strong>Post(s) from: '.$blog->user_id.'</strong></li>';
       $old = $blog->user_id;
     }
     echo '<div class="card m-1">';
       echo '<div class="card-header d-flex justify-content-between">
         Posted on: '.$blog->blogDate.'
-        <button onclick="this.disabled = true" class="btn btn-outline-warning btn-sm active">Like</button>
-        
+        <form method="post" action="index.php">
+          <input type="submit" name="like_button" class="btn btn-outline-warning btn-sm active" value="Like">
+          <input type="hidden" name="bid_likes" value="'.$blog->blogID.'"/>
+        </form>
       </div>';
       echo '<div class="card-body">';
         echo '<h5 class="card-title">'.$blog->title.'</h5>';                
         echo '<p class="card-text">'.$blog->blogText.'</p>';  
-        //If user is logged in usr -> blogs can be edited
+        //If user is logged in: user -> blogs can be edited
         if ($blog->username == $_SESSION["username"]) {
           echo '
           <div>
             <form method="post" action="Edit_Blog/edit.php" class="d-flex justify-content-between">
               <input type="submit" class="btn btn-info" name="action" value="Edit"/>
               <input type="hidden" name="id" value="'.$blog->blogID.'"/>
-              <h6>Likes: <span class="badge badge-secondary m-1">'.$blog->likes.'</span></h6>
             </form>
             <form method="post" action="index.php">
                 <input type="submit" class="btn btn-danger btn-sm mt-1" name="action" value="X"/>
@@ -56,6 +57,7 @@ foreach($allBlogs as $blog)
             </form>
           </div>';
         }
+        echo '<h6>Likes: <span class="badge badge-secondary m-1">'.$blog->likes.'</span></h6>';
       echo '</div>';
     echo '</div>';
 }

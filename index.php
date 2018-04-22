@@ -154,6 +154,41 @@ if (isset($_POST["action"]) && isset($_POST["bid_del"])) {
   $statementDeleteBlog->execute(['bid' => $_POST["bid_del"], 'uid' => $userIDForDB]);
 }
 
+//*** LIKES ***//
+if (isset($_POST['like_button'])) {
+  //Get user (the one logged in)
+  $loggedUser = $_SESSION["username"];
+
+  $getUserByIdSQL = 'SELECT userID FROM benutzer WHERE  username = ?';
+  $statementGetUserById = $PDOconnection->prepare($getUserByIdSQL);
+  $statementGetUserById->execute([$loggedUser]);
+  $ID = $statementGetUserById->fetch();
+
+  $userIDForDB = $ID->userID;
+
+  //Check if blog was liked already by user
+  $checkBlogLikeSQL = 'SELECT likesID FROM likes WHERE blog_ID = :bid AND user_id = :uid';
+  $statementCheckBlogLike = $PDOconnection->prepare($checkBlogLikeSQL);
+  $statementCheckBlogLike->execute(['bid' => $_POST["bid_likes"], 'uid' => $userIDForDB]);
+  $count = $statementCheckBlogLike->rowCount();
+
+  if ($count == 0) {
+
+    //Set likes and update blog
+    $updateBlogLikesSQL = 'UPDATE blog SET likes = (likes + 1) WHERE blogID = :bid';
+    $statementUpdateBlogLikes = $PDOconnection->prepare($updateBlogLikesSQL);
+    $statementUpdateBlogLikes->execute(['bid' => $_POST["bid_likes"]]);
+
+    //Set new like-row in likes-table
+    $updateLikesSQL = 'INSERT INTO likes(blog_ID, user_id) VALUES (:bid, :uid)';
+    $statementUpdateLikes = $PDOconnection->prepare($updateLikesSQL);
+    $statementUpdateLikes->execute(['bid' => $_POST["bid_likes"], 'uid' => $userIDForDB]);
+  }
+  else
+  {
+    echo "You have already liked this blog";
+  }
+}
 ?>
 
 <!DOCTYPE html>
