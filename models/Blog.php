@@ -13,9 +13,9 @@ class Blog extends Model
 
     public function showBlog($id)
     {
-        $sql = "SELECT * FROM blog WHERE id =" . $id;
+        $sql = "SELECT * FROM blog WHERE id = ?";
         $req = Database::getBdd()->prepare($sql);
-        $req->execute();
+        $req->execute([$id]);
         return $req->fetch();
     }
 
@@ -29,7 +29,7 @@ class Blog extends Model
 
     public function showAllBlogsSorted()
     {
-        $sql = "SELECT * FROM blog ORDER BY user_id, blogDate DESC";
+        $sql = "SELECT * FROM blog LEFT JOIN benutzer ON benutzer.userID = blog.user_id ORDER BY user_id, blogDate DESC";
         $req = Database::getBdd()->prepare($sql);
         $req->execute();
         return $req->fetchAll();

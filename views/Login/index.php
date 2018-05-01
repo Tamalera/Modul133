@@ -1,5 +1,6 @@
 <!-- Main Article Of Page -->
     <div class="jumbotron">
+      <h2>LOGIN</h2>
       <h1>Title of a longer featured blog post</h1>
       <p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.</p>
       <p class="lead mb-0"><a href="Blog/singleBlog.php" class="font-weight-bold">Continue reading...</a></p>
@@ -15,7 +16,7 @@ echo '<div class="card m-1 col-12">';
   echo  '<ul class="list-group list-group-flush">';
 
 //Loop through blogs
-foreach($Blogs as $blog)
+foreach($blogs as $blog)
 {  
     //Sort by user
     if ($old != $blog['user_id'])
@@ -35,7 +36,7 @@ foreach($Blogs as $blog)
         echo '<h5 class="card-title">'.$blog['title'].'</h5>';                
         echo '<p class="card-text">'.$blog['blogText'].'</p>';  
         //If user is logged in: user -> blogs can be edited
-        if ($blog->username == $_SESSION["username"]) {
+        if ($blog['username'] == $_SESSION["username"]) {
           echo '
           <div>
             <form method="post" action="Edit_Blog/edit.php" class="d-flex justify-content-between">

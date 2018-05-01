@@ -2,7 +2,6 @@
 <head>
     <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <script
   src="http://code.jquery.com/jquery-3.3.1.js"
@@ -11,7 +10,6 @@
 
   <title>Modul 151</title>
 </head>
-
 <body onload="return ran_col()">
     <nav class="site-header sticky-top py-1 bg-dark">
       <div class="container d-flex flex-column flex-md-row justify-content-between">
@@ -32,7 +30,9 @@
               <div class="nav">
                 <a href="Create_Blog/create.php">Write Blog &nbsp</a>
                 <p class="text-light"><?php echo("{$_SESSION['username']}");?></p>
-                <a class="btn btn-sm btn-outline-secondary" href="./Login/logout.php">Logout</a>
+                <form method="POST" action="login/logout">
+                  <button class="btn btn-sm btn-outline-secondary" name="logoutForm">Logout</button>
+                </form>
               </div>
               <?php
             }
@@ -62,25 +62,21 @@
 </footer>
 
 <script type="text/javascript">
-    function ran_col() { //function name
-        var color = '#'; // hexadecimal starting symbol
-        //var letters = ['000000','FF0000','00FF00','0000FF','FFFF00','00FFFF','FF00FF','C0C0C0']; //Set your colors here
-        var randomColor = Math.floor(Math.random()*16777215).toString(16);
-        color += randomColor;
-        var allTitles = document.getElementsByClassName('randomBackground')
-        var counter;
-        for (counter = 0; counter < allTitles.length; counter++) {
-            allTitles[counter].style.backgroundColor = color;
-        }
-    }
+  <?php
+    require(ROOT . 'public/randomColor.js');
+  ?>
 </script>
 
-  <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+
 </body>
+
+<!-- LOGIN and REGISTER is MODAL: needs to be outside of BODY-TAG to work -->
+<?php 
+ require(ROOT . 'views/Login/signIn.php');
+?>
+
 </html>

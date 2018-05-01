@@ -1,8 +1,9 @@
 <?php
 class blogController extends defaultController
 {
-    function index($id)
+    function index()
     {
+        
         require(ROOT . 'Models/Blog.php');
         $blogs = new Blog();
         $dbBlogs['blogs'] = $blogs->showAllBlogsSorted();
