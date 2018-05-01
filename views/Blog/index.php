@@ -1,0 +1,1 @@
+<h2>BLOGS INDEX</h2>
