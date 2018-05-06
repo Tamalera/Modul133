@@ -28,5 +28,16 @@ class User extends Model
         $user = $req->fetch(PDO::FETCH_ASSOC);
         return $user['userID'];
     }
+
+    public function addUser($userName, $pwHash)
+    {
+        $sql = "INSERT INTO benutzer (username, passwordHash, role_id) VALUES (:username, :passwordHash, :role_id)";
+        $req = Database::getBdd()->prepare($sql);
+        $req->execute([
+            'username' => $userName,
+            'passwordHash' => $pwHash,
+            'role_id' => 1
+        ]);
+    }
 }
 ?>

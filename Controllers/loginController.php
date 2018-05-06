@@ -16,11 +16,9 @@ class LoginController extends defaultController
 		  $password = stripslashes($password);
 
 		  //Check user (if exists)
-		  require(ROOT . 'Models/User.php');
+		  require_once(ROOT . 'Models/User.php');
 		  $user = new User();
-          $dbUser['count'] = $user->userExist($username);
-
-       	  $count = $dbUser['count'];
+          $count = $user->userExist($username);
 
 		  //Check password for validity -> first get if from DB with same user as before
 		  $dbPasswordHash['passwordHash'] = $user->getPassword($username);
@@ -44,6 +42,31 @@ class LoginController extends defaultController
 
     function register()
     {
+    	//*** REGISTRATION ***//
+		//Register user: first check if username already exists. If not, save user and encrypted password plus USER
+		if (isset($_POST['register'])){
+
+		  //Assign input variable for registration
+		  $email = $_POST['emailreg'];
+
+		  //Check for double user: only if username is NOT (!) found in DB, user can register
+		  require_once(ROOT . 'Models/User.php');
+		  $user = new User();
+          $count = $user->userExist($email);
+
+		  if ($count == 0) { 
+		   
+		    $username = $email;
+		    $hashedPass = password_hash($_POST['passwordreg'], PASSWORD_DEFAULT);
+
+		    $user->addUser($username, $hashedPass);
+
+		    $_SESSION["is_logged_in"] = true;
+		    $_SESSION["username"] = $username;
+
+		    }		  
+		}
+		header("Location: /PHP_project_Modul151_MVC/");
 
     }
 
