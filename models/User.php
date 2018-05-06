@@ -20,13 +20,13 @@ class User extends Model
         return $passwordHash['passwordHash'];
     }
 
-    public function getUserID($username){
+    public function getUserID($username)
+    {
         $sql = "SELECT userID FROM benutzer WHERE  username = ?";
         $req = Database::getBdd()->prepare($sql);
         $req->execute([$username]);
         $user = $req->fetch(PDO::FETCH_ASSOC);
         return $user['userID'];
     }
-
 }
 ?>

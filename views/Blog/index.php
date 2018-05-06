@@ -26,9 +26,8 @@ foreach($blogs as $blog)
     echo '<div class="card m-1">';
       echo '<div class="card-header d-flex justify-content-between">
         Posted on: '.$blog['blogDate'].'
-        <form method="post" action="index.php">
+        <form method="post" action="like/index/'.$blog['blogID'].'">
           <input type="submit" name="like_button" class="btn btn-outline-warning btn-sm active" value="Like">
-          <input type="hidden" name="bid_likes" value="'.$blog['blogID'].'"/>
         </form>
       </div>';
       echo '<div class="card-body">';

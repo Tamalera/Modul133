@@ -34,7 +34,7 @@ class LoginController extends defaultController
 	        $dbBlogs['blogs'] = $blogs->showAllBlogsSorted();
 	        $this->set($dbBlogs);
 
-		    $this->render("../Blog/index");
+		    header("Location: /PHP_project_Modul151_MVC/");
 
 		  } else {
 		    $this->render("../error");

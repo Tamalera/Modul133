@@ -60,7 +60,7 @@
   <p>
     <a href="#">Back to top</a>
   </p>
-  <p>&copy; Modul 133 INFW2017.2a Florence Meier</p>
+  <p>&copy; Modul 151 INFW2017.2a Florence Meier</p>
 </footer>
 
 <script type="text/javascript">

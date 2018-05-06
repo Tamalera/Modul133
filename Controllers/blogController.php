@@ -79,6 +79,10 @@ class blogController extends defaultController
             require(ROOT . 'Models/Blog.php');
             $deleteBlog = new Blog();
             $deleteBlog->delete($id);
+            //Also delete entry in Likes-Table
+            require(ROOT . 'Models/Like.php');
+            $deleteLikesOfBlog = new Like();
+            $deleteLikesOfBlog->deleteLike($id);
             header("Location: /PHP_project_Modul151_MVC/");
         }
         else
