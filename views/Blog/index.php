@@ -16,7 +16,7 @@ echo '<div class="card m-1 col-12">';
 
 //Loop through blogs
 foreach($blogs as $blog)
-{  
+{ 
     //Sort by user
     if ($old != $blog['user_id'])
     {
@@ -38,13 +38,11 @@ foreach($blogs as $blog)
         if ($blog['username'] == $_SESSION["username"]) {
           echo '
           <div>
-            <form method="post" action="Edit_Blog/edit.php" class="d-flex justify-content-between">
+            <form method="post" action="blog/edit/'.$blog['blogID'].'" class="d-flex justify-content-between">
               <input type="submit" class="btn btn-info" name="action" value="Edit"/>
-              <input type="hidden" name="id" value="'.$blog['blogID'].'"/>
             </form>
-            <form method="post" action="index.php">
+            <form method="post" action="blog/delete/'.$blog['blogID'].'">
                 <input type="submit" class="btn btn-danger btn-sm mt-1" name="action" value="X"/>
-                <input type="hidden" name="bid_del" value="'.$blog['blogID'].'"/>
             </form>
           </div>';
         }

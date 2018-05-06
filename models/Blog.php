@@ -22,9 +22,9 @@ class Blog extends Model
 
     public function showBlog($id)
     {
-        $sql = "SELECT * FROM blog WHERE id = ?";
+        $sql = "SELECT * FROM blog WHERE blogID = :id";
         $req = Database::getBdd()->prepare($sql);
-        $req->execute([$id]);
+        $req->execute(['id' => $id]);
         return $req->fetch();
     }
 
@@ -46,20 +46,22 @@ class Blog extends Model
 
     public function edit($id, $title, $blogText)
     {
-        $sql = "UPDATE blog SET title = :title, blogText = :blogText WHERE id = :id";
+        $newDate = date('Y-m-d H:i:s');
+        $sql = "UPDATE blog SET title = :title, blogText = :blogText, blogDate = :newDate WHERE blogID = :id";
         $req = Database::getBdd()->prepare($sql);
-        return $req->execute([
+        $req->execute([
             'id' => $id,
             'title' => $title,
             'blogText' => $blogText,
+            'newDate' => $newDate,
         ]);
     }
 
     public function delete($id)
     {
-        $sql = 'DELETE FROM blog WHERE id = ?';
+        $sql = 'DELETE FROM blog WHERE blogID = ?';
         $req = Database::getBdd()->prepare($sql);
-        return $req->execute([$id]);
+        $req->execute([$id]);
     }
 }
 ?>
