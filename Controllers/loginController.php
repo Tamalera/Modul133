@@ -52,6 +52,7 @@ class LoginController extends defaultController
     	//Button is clicked
     	if (isset($_POST["logoutForm"]))
     	{
+    	header("Location: /PHP_project_Modul151_MVC/");
     	// remove all session variables
 		session_unset(); 
 
@@ -59,7 +60,7 @@ class LoginController extends defaultController
 		session_destroy();
 
 		// go to main page
-		 $this->render("logout");
+		header("Location: /PHP_project_Modul151_MVC/");
     	}
     }
 }

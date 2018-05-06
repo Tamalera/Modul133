@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+define('FROOT', str_replace("index.php", "", $_SERVER["SCRIPT_NAME"]));
+
 define('ROOT', str_replace("index.php", "", $_SERVER["SCRIPT_FILENAME"]));
 require(ROOT . 'misc/core.php');
 require(ROOT . 'router.php');

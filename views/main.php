@@ -13,7 +13,7 @@
 <body onload="return ran_col()">
     <nav class="site-header sticky-top py-1 bg-dark">
       <div class="container d-flex flex-column flex-md-row justify-content-between">
-        <a class="navbar-brand text-light">My Blog</a>
+        <a href="/PHP_project_Modul151_MVC/" class="navbar-brand text-light">My Blog</a>
 
         <div class="col-11 d-flex justify-content-end align-items-center">
           <div class="justify-content-between">
@@ -24,11 +24,13 @@
             </button>
              <?php
             }
-            ?> 
-            <?php if(isset($_SESSION['is_logged_in'])){
+            ?>
+            <?php 
+            $actualURL = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            if(isset($_SESSION['is_logged_in']) && $actualURL == "http://localhost/PHP_project_Modul151_MVC/"){
               ?>
               <div class="nav">
-                <a href="Create_Blog/create.php">Write Blog &nbsp</a>
+                <a href="blog/create">Write Blog &nbsp</a>
                 <p class="text-light"><?php echo("{$_SESSION['username']}");?></p>
                 <form method="POST" action="login/logout">
                   <button class="btn btn-sm btn-outline-secondary" name="logoutForm">Logout</button>
@@ -36,7 +38,7 @@
               </div>
               <?php
             }
-            ?> 
+            ?>
           </div>
         </div>
       </div>

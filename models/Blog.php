@@ -3,11 +3,20 @@ class Blog extends Model
 {
     public function create($title, $blogText)
     {
-        $sql = "INSERT INTO blog (title, blogText) VALUES (:title, :blogText)";
+        $blogDate = date('Y-m-d H:i:s');
+
+        //Get user (have username, need ID)
+        require(ROOT . 'Models/User.php');
+        $user = new User();
+        $user_id = $user->getUserID($_SESSION["username"]);
+
+        $sql = "INSERT INTO blog (title, blogText, blogDate, user_id) VALUES (:title, :blogText, :blogDate, :user_id)";
         $req = Database::getBdd()->prepare($sql);
-        return $req->execute([
+        $req->execute([
             'title' => $title,
             'blogText' => $blogText,
+            'blogDate' => $blogDate,
+            'user_id' => $user_id
         ]);
     }
 

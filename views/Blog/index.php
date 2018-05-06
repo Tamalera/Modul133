@@ -1,8 +1,8 @@
 <!-- Main Article Of Page -->
-    <div class="jumbotron">
-      <h1>Title of a longer featured blog post</h1>
-      <p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.</p>
-      <p class="lead mb-0"><a href="Blog/singleBlog.php" class="font-weight-bold">Continue reading...</a></p>
+    <div class="jumbotron align-center">
+      <h1>Welcome to the private blog area</h1>
+      <p class="lead my-3">You can write a new blog, edit or remove your blogs, like blogs and much more.</p>
+      <p class="lead mb-0" class="font-weight-bold">ENJOY</p>
     </div>
 
     <!-- Single Blogs -->
