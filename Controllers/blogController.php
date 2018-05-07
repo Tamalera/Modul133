@@ -25,8 +25,16 @@ class blogController extends defaultController
             if (isset($_POST["blogTitle"]) && isset($_POST["blogContent"]))
             {
                 require(ROOT . 'Models/Blog.php');
-                $blog= new Blog();
+                $blog = new Blog();
                 $blog->create($_POST["blogTitle"], $_POST["blogContent"]);
+
+                //Upload picture if one exists
+                if (isset($_POST["pic_text"])){
+                    //Picture upload:
+                    require(ROOT . 'Models/Picture.php');
+                    $picture = new Picture();
+                    $picture->addPicture($_POST["pic_text"]);
+                }
 
                 header("Location: /PHP_project_Modul151_MVC/");
             }

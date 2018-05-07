@@ -31,12 +31,13 @@ class User extends Model
 
     public function addUser($userName, $pwHash)
     {
+        //User ROle is 2 by default: 1 = admin, 2 = user
         $sql = "INSERT INTO benutzer (username, passwordHash, role_id) VALUES (:username, :passwordHash, :role_id)";
         $req = Database::getBdd()->prepare($sql);
         $req->execute([
             'username' => $userName,
             'passwordHash' => $pwHash,
-            'role_id' => 1
+            'role_id' => 2
         ]);
     }
 }
