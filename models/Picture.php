@@ -1,6 +1,39 @@
 <?php
 class Picture extends Model
 {
+    public function getBlogPictures($blog_id){
+        $sql = "SELECT * FROM picture WHERE blogID = :id";
+        $req = Database::getBdd()->prepare($sql);
+        $req->execute(['id' => $blog_id]);
+        return $req->fetchAll();
+
+    }
+
+    public function getOneBlogPicture($pic_id){
+        $sql = "SELECT * FROM picture WHERE pictureID = :id";
+        $req = Database::getBdd()->prepare($sql);
+        $req->execute(['id' => $pic_id]);
+        $picture = $req->fetch(PDO::FETCH_ASSOC);
+        return $picture['pictureID'];
+    }
+
+    public function getAllPictures(){
+        $sql = "SELECT * FROM picture";
+        $req = Database::getBdd()->prepare($sql);
+        $req->execute();
+        return $req->fetchAll();
+    }
+
+    public function deletePicture($blog_id){
+        //Delete picture from folder
+        //unlink($file)
+        //Delete picture from DB
+        $sql = 'DELETE FROM picture WHERE blog_ID = ?';
+        $req = Database::getBdd()->prepare($sql);
+        $req->execute([$blog_id]);
+
+    }
+
     public function addPicture($caption)
     {
         //Set directory to save file(s)
@@ -86,7 +119,7 @@ class Picture extends Model
         }
     }
 
-    public function resizeSmall($image_resource_id,$width,$height) {
+    private function resizeSmall($image_resource_id,$width,$height) {
         $target_width = 100;
         $ratio = $target_width/$height;
         $target_height = $height*$ratio;
@@ -96,7 +129,7 @@ class Picture extends Model
         return $newSize;
     }
 
-    public function resizeBig($image_resource_id,$width,$height) {
+    private function resizeBig($image_resource_id,$width,$height) {
         $target_width =1000;
         $ratio = $target_width/$height;
         $target_height = $height*$ratio;
