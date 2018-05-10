@@ -19,6 +19,7 @@ class blogController extends defaultController
             $this->render("../publicArea");
         }
     }
+
     function create()
     {
         if(isset($_SESSION['is_logged_in'])){
@@ -53,6 +54,7 @@ class blogController extends defaultController
         }
 
     }
+
     function edit($id)
     {
         if(isset($_SESSION['is_logged_in'])){
@@ -67,7 +69,7 @@ class blogController extends defaultController
             {
                 require(ROOT . 'Models/Blog.php');
                 $blogs = new Blog();
-                $dbBlogs['blog'] = $blogs->showBlog($id);
+                $dbBlogs['blog'] = $blogs->editBlog($id);
                 $this->set($dbBlogs);
                 $this->render("edit");
             }
@@ -81,27 +83,51 @@ class blogController extends defaultController
             $this->render("../publicArea");
         }
     }
+
     function delete($id)
     {
         if(isset($_SESSION['is_logged_in'])){
+            
+            //Also delete entry of all likes of this blog in Likes-Table
+            if($_POST['likesID'] > 0){
+                require(ROOT . 'Models/Like.php');
+                $deleteLikesOfBlog = new Like();
+                $deleteLikesOfBlog->deleteLike($id);
+            }
+
+            //Also delete picture all pictures of this blog
+            if($_POST['pictureID'] > 0){
+                require(ROOT . 'Models/Picture.php');
+                $deletePicture = new Picture();
+                $deletePicture->deletePictureOfBlog($id);
+            }
+
+            //Delete actual blog
             require(ROOT . 'Models/Blog.php');
             $deleteBlog = new Blog();
             $deleteBlog->delete($id);
-            //Also delete entry in Likes-Table
-            if (isset($_POST['likesID'])) {
-                require(ROOT . 'Models/Like.php');
-                $deleteLikesOfBlog = new Like();
-                $deleteLikesOfBlog->deleteLike($_POST["likesID"]);
-            }
-            //Also delete picture
-            if (isset($_POST['pictureID'])) {
-                require(ROOT . 'Models/Picture.php');
-                $deletePicture = new Picture();
-                $deletePicture->deletePicture($_POST["pictureID"]);
-            }
             
             header("Location: /PHP_project_Modul151_MVC/");
-            echo "Deleted";
+        }
+        else
+        {
+            require(ROOT . 'Models/Blog.php');
+            $blogs = new Blog();
+            $dbBlogs['blogs'] = $blogs->showAllBlogsSorted();
+            $this->set($dbBlogs);
+            $this->render("../publicArea");
+        }
+    }
+
+
+    function show($id)
+    {
+        if(isset($_SESSION['is_logged_in'])){
+            require(ROOT . 'Models/Blog.php');
+            $blogs = new Blog();
+            $dbBlogs['blog'] = $blogs->showBlog($id);
+            $this->set($dbBlogs);
+            $this->render("show");
         }
         else
         {

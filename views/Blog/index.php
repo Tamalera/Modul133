@@ -36,16 +36,19 @@ foreach($blogs as $blog)
         //If user is logged in: user -> blogs can be edited
         if ($blog['username'] == $_SESSION["username"]) {
           echo '
-          <div>
+          <div class="d-flex row wrap justify-content-between">
             <form method="post" action="blog/edit/'.$blog['blogID'].'" class="d-flex justify-content-between">
-              <input type="submit" class="btn btn-info" name="action" value="Edit"/>
+              <input type="submit" class="btn btn-secundary btn-sm mt-1" name="action" value="Edit"/>
+            </form>
+            <form method="post" action="blog/show/'.$blog['blogID'].'">
+              <input type="submit" class="btn btn-info btn-sm mt-1" name="action" value="Show"/>
             </form>
             <form method="post" action="blog/delete/'.$blog['blogID'].'">
-              <input type="hidden" name="likesID" value="'.$blog['likesID'].'">
-              <input type="hidden" name="pictureID" value="'.$blog['pictureID'].'">
+              <input type="hidden" name="likesID" value="'.$blog['likesID'].'"/>
+              <input type="hidden" name="pictureID" value="'.$blog['pictureID'].'"/>
               <input type="submit" class="btn btn-danger btn-sm mt-1" name="action" value="X"/>
             </form>
-          </div>';
+          </div> <br>';
         }
         echo '<h6>Likes: <span class="badge badge-secondary m-1">'.$blog['likes'].'</span></h6>';
       echo '</div>';

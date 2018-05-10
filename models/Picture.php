@@ -34,6 +34,24 @@ class Picture extends Model
 
     }
 
+    public function deletePictureOfBlog($blog_ID){
+        //Delete picture from folder
+        // $sql = 'SELECT * FROM picture WHERE blog_ID = ?';
+        // $req = Database::getBdd()->prepare($sql);
+        // $req->execute([$blog_ID]);
+        // $req->fetchAll();
+        // foreach ($image as $req) {
+        //     $big = basename($req['pictureBig']);
+        //     $small = basename($req['pictureSmall']);
+        //     unlink($big);
+        //     unlink($small);
+        // }
+        //Delete picture from DB
+        $sql2 = 'DELETE FROM picture WHERE blog_ID = ?';
+        $req2 = Database::getBdd()->prepare($sql2);
+        $req2->execute([$blog_ID]);
+    }
+
     public function addPicture($caption)
     {
         //Set directory to save file(s)
@@ -121,20 +139,20 @@ class Picture extends Model
 
     private function resizeSmall($image_resource_id,$width,$height) {
         $target_width = 100;
-        $ratio = $target_width/$height;
-        $target_height = $height*$ratio;
+        $ratio = $width/$height;
+        $target_height = (int)($target_width/$ratio);
 
-        $newSize=imagecreatetruecolor($target_width,$target_height);
-        imagecopyresampled($newSize,$image_resource_id,0,0,0,0,$target_width,$target_height, $width,$height);
+        $newSize=imagecreatetruecolor($target_width, $target_height);
+        imagecopyresampled($newSize, $image_resource_id,0,0,0,0,$target_width, $target_height, $width, $height);
         return $newSize;
     }
 
     private function resizeBig($image_resource_id,$width,$height) {
-        $target_width =1000;
-        $ratio = $target_width/$height;
-        $target_height = $height*$ratio;
-        $newSize=imagecreatetruecolor($target_width,$target_height);
-        imagecopyresampled($newSize,$image_resource_id,0,0,0,0,$target_width,$target_height, $width,$height);
+        $target_width = 1000;
+        $ratio = $width/$height;
+        $target_height = (int)($target_width/$ratio);
+        $newSize=imagecreatetruecolor($target_width, $target_height);
+        imagecopyresampled($newSize, $image_resource_id,0,0,0,0,$target_width, $target_height, $width, $height);
         return $newSize;
     }
 }

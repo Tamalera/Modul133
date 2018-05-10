@@ -22,6 +22,16 @@ class Blog extends Model
 
     public function showBlog($id)
     {
+        $sql = "SELECT * FROM blog 
+        LEFT JOIN picture ON picture.blog_ID = blog.blogID 
+        WHERE blogID = :id";
+        $req = Database::getBdd()->prepare($sql);
+        $req->execute(['id' => $id]);
+        return $req->fetchAll();
+    }
+
+    public function editBlog($id)
+    {
         $sql = "SELECT * FROM blog WHERE blogID = :id";
         $req = Database::getBdd()->prepare($sql);
         $req->execute(['id' => $id]);
