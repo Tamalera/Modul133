@@ -24,13 +24,13 @@ class Picture extends Model
         return $req->fetchAll();
     }
 
-    public function deletePicture($blog_id){
+    public function deletePicture($pid){
         //Delete picture from folder
         //unlink($file)
         //Delete picture from DB
-        $sql = 'DELETE FROM picture WHERE blog_ID = ?';
+        $sql = 'DELETE FROM picture WHERE pictureID = ?';
         $req = Database::getBdd()->prepare($sql);
-        $req->execute([$blog_id]);
+        $req->execute([$pid]);
 
     }
 

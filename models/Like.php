@@ -38,11 +38,13 @@ class Like extends Model
         ]);
     }
 
-    public function deleteLike($id)
+    public function deleteLike($lid)
     {
-        $sql = 'DELETE FROM likes WHERE blog_ID = ?';
+        $sql = 'DELETE FROM likes WHERE likesID = :id';
         $req = Database::getBdd()->prepare($sql);
-        $req->execute([$id]);
+        $req->execute([
+            'id' => $lid
+        ]);
     }
 }
 ?>

@@ -88,14 +88,20 @@ class blogController extends defaultController
             $deleteBlog = new Blog();
             $deleteBlog->delete($id);
             //Also delete entry in Likes-Table
-            require(ROOT . 'Models/Like.php');
-            $deleteLikesOfBlog = new Like();
-            $deleteLikesOfBlog->deleteLike($id);
+            if (isset($_POST['likesID'])) {
+                require(ROOT . 'Models/Like.php');
+                $deleteLikesOfBlog = new Like();
+                $deleteLikesOfBlog->deleteLike($_POST["likesID"]);
+            }
             //Also delete picture
-            require(ROOT . 'Models/Picture.php');
-            $deletePicture = new Picture();
-            $deletePicture->deletePicture($id);
+            if (isset($_POST['pictureID'])) {
+                require(ROOT . 'Models/Picture.php');
+                $deletePicture = new Picture();
+                $deletePicture->deletePicture($_POST["pictureID"]);
+            }
+            
             header("Location: /PHP_project_Modul151_MVC/");
+            echo "Deleted";
         }
         else
         {

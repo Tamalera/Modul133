@@ -1,1 +1,1 @@
-<h2>SHOW BLOGS</h2>
+<h2>SHOW BLOG</h2>

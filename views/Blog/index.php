@@ -41,7 +41,9 @@ foreach($blogs as $blog)
               <input type="submit" class="btn btn-info" name="action" value="Edit"/>
             </form>
             <form method="post" action="blog/delete/'.$blog['blogID'].'">
-                <input type="submit" class="btn btn-danger btn-sm mt-1" name="action" value="X"/>
+              <input type="hidden" name="likesID" value="'.$blog['likesID'].'">
+              <input type="hidden" name="pictureID" value="'.$blog['pictureID'].'">
+              <input type="submit" class="btn btn-danger btn-sm mt-1" name="action" value="X"/>
             </form>
           </div>';
         }
