@@ -63,6 +63,15 @@ class blogController extends defaultController
                 require(ROOT . 'Models/Blog.php');
                 $blogs = new Blog();
                 $blogs->edit($id, $_POST["blogTitle"], $_POST["blogContent"]);
+
+                //Upload another picture (if exists)
+                if (isset($_POST["picText"])){
+                    //Picture upload:
+                    require(ROOT . 'Models/Picture.php');
+                    $picture = new Picture();
+                    $picture->addPicture($_POST["picText"]);
+                }
+
                 header("Location: /PHP_project_Modul151_MVC/");
             }
             else
@@ -89,18 +98,14 @@ class blogController extends defaultController
         if(isset($_SESSION['is_logged_in'])){
             
             //Also delete entry of all likes of this blog in Likes-Table
-            if($_POST['likesID'] > 0){
-                require(ROOT . 'Models/Like.php');
-                $deleteLikesOfBlog = new Like();
-                $deleteLikesOfBlog->deleteLike($id);
-            }
+            require(ROOT . 'Models/Like.php');
+            $deleteLikesOfBlog = new Like();
+            $deleteLikesOfBlog->deleteLike($id);
 
             //Also delete picture all pictures of this blog
-            if($_POST['pictureID'] > 0){
-                require(ROOT . 'Models/Picture.php');
-                $deletePicture = new Picture();
-                $deletePicture->deletePictureOfBlog($id);
-            }
+            require(ROOT . 'Models/Picture.php');
+            $deletePicture = new Picture();
+            $deletePicture->deletePictureOfBlog($id);
 
             //Delete actual blog
             require(ROOT . 'Models/Blog.php');

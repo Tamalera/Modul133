@@ -32,7 +32,9 @@ class Blog extends Model
 
     public function editBlog($id)
     {
-        $sql = "SELECT * FROM blog WHERE blogID = :id";
+        $sql = "SELECT * FROM blog 
+        LEFT JOIN picture ON picture.blog_ID = blog.blogID 
+        WHERE blogID = :id";
         $req = Database::getBdd()->prepare($sql);
         $req->execute(['id' => $id]);
         return $req->fetch();
@@ -49,11 +51,9 @@ class Blog extends Model
     public function showAllBlogsSorted()
     {
         $sql = "SELECT blog.blogID, blog.title, blog.blogText, blog.blogDate, blog.user_id, blog.likes,
-            benutzer.userID, benutzer.username, likes.likesID, picture.pictureID
+            benutzer.userID, benutzer.username
             FROM blog 
             LEFT JOIN benutzer ON benutzer.userID = blog.user_id
-            LEFT JOIN likes ON likes.blog_ID = blog.blogID
-            LEFT JOIN picture ON picture.blog_ID = blog.blogID 
             ORDER BY user_id, blogDate DESC";
         $req = Database::getBdd()->prepare($sql);
         $req->execute();

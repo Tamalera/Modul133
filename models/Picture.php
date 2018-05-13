@@ -1,6 +1,7 @@
 <?php
 class Picture extends Model
 {
+    //Get all pictures of one blog
     public function getBlogPictures($blog_id){
         $sql = "SELECT * FROM picture WHERE blogID = :id";
         $req = Database::getBdd()->prepare($sql);
@@ -9,14 +10,15 @@ class Picture extends Model
 
     }
 
+    //Get one picture by ID
     public function getOneBlogPicture($pic_id){
         $sql = "SELECT * FROM picture WHERE pictureID = :id";
         $req = Database::getBdd()->prepare($sql);
         $req->execute(['id' => $pic_id]);
-        $picture = $req->fetch(PDO::FETCH_ASSOC);
-        return $picture['pictureID'];
+        return $req->fetch();
     }
 
+    //Get all pictures
     public function getAllPictures(){
         $sql = "SELECT * FROM picture";
         $req = Database::getBdd()->prepare($sql);
@@ -24,6 +26,7 @@ class Picture extends Model
         return $req->fetchAll();
     }
 
+    //Delete one picture by ID
     public function deletePicture($pid){
         //Delete picture from folder
         //unlink($file)
@@ -34,6 +37,7 @@ class Picture extends Model
 
     }
 
+    //Delete all pictures of a blog
     public function deletePictureOfBlog($blog_ID){
         //Delete picture from folder
         // $sql = 'SELECT * FROM picture WHERE blog_ID = ?';
@@ -52,6 +56,28 @@ class Picture extends Model
         $req2->execute([$blog_ID]);
     }
 
+    //Add picture to a blog -> get blog id by pic id and add pic
+     public function addPic($pid){
+        //First get blog_ID from picture itself
+
+        //Add new picture with default caption
+        $sql = 'UPDATE ';
+        $req = Database::getBdd()->prepare($sql);
+        $req->execute([$pid]);
+    }
+
+    //Change caption of a pic
+     public function changeCaption($pid, $caption){
+        //Change caption of pic
+        $sql = 'UPDATE picture SET pictureText = :picText WHERE pictureID = :pid';
+        $req = Database::getBdd()->prepare($sql);
+        $req->execute([
+            'picText' => $caption,
+            'pid' => $pid
+        ]);
+    }
+
+    //Add a picure when creating or editing a blog
     public function addPicture($caption)
     {
         //Set directory to save file(s)
@@ -115,9 +141,9 @@ class Picture extends Model
                         imagepng($target_layer,$pictureSmallUnique);
                     }
 
-                    //Save everything in DB (need first blog_id --> last blog added)
+                    //Save everything in DB (need newsest blog --> newest date)
 
-                    $sqlBlog = "SELECT blogID FROM blog ORDER BY blogID DESC LIMIT 1";
+                    $sqlBlog = "SELECT blogID FROM blog ORDER BY blogDate DESC LIMIT 1";
                     $reqBlog = Database::getBdd()->prepare($sqlBlog);
                     $reqBlog->execute();
                     $blogidtemp = $reqBlog->fetch(PDO::FETCH_ASSOC);

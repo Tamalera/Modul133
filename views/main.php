@@ -60,7 +60,7 @@
 
 <footer class="blog-footer">
   <p>
-    <a href="#">Back to top</a>
+    <a href="#">Back</a>
   </p>
   <p>&copy; Modul 151 INFW2017.2a Florence Meier</p>
 </footer>
