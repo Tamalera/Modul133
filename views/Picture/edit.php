@@ -10,11 +10,7 @@
 	  <tbody>
 	    <tr>
 	      <td>
-	      	<form action="picture/addPic/'.$image['pictureID'].'" method="POST" enctype="multipart/form-data">
-	      	<?php echo '<img class="card-img-top imgSmall m-2" src="'."images/".basename($image['pictureSmall']).'" alt="pic">'; ?> <br>
-			    <input class="m-2" type="file" name="picUpload" id="picUpload"> <br>
-			    <button name="addPicture" type="submit" class="btn btn-primary">Add</button>
-			</form>
+	      	<?php echo '<img class="card-img-top imgSmall m-2" id="imageSmall" src="'."images/".basename($image['pictureSmall']).'" alt="pic" onclick="openModal()">'; ?>
 	      </td>
 	      <td><?php echo '
 	      	<form action="picture/save/'.$image['pictureID'].'" method="POST">
@@ -24,7 +20,7 @@
 	      	'?>
 	      </td>
 	      <td>
-	      	<form method="POST" action="picture/deletePicture/'.$image['pictureID'].'">
+	      	<form method="POST" action="picture/delete/'.$image['pictureID'].'">
               <input type="submit" class="btn btn-danger btn-sm mt-1" name="action" value="X"/>
             </form>
 	      </td>
@@ -32,3 +28,46 @@
 	  </tbody>
   </form>
 </table>
+
+<!-- The Modal/Lightbox -->
+<div id="myModal" class="modalImage">
+  <div class="modal-contentImage">
+  	<?php echo '<img onclick="closeModal()" class="card-img-top m-2" src="'."images/".basename($image['pictureBig']).'" alt="pic"'; ?>
+  </div>
+</div>
+
+<script>
+// Open the Modal
+function openModal() {
+  document.getElementById('myModal').style.display = "block";
+}
+
+// Close the Modal
+function closeModal() {
+  document.getElementById('myModal').style.display = "none";
+}
+</script>
+
+<style type="text/css">
+.modalImage {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: black;
+}
+
+/* Modal Content */
+.modal-contentImage {
+  position: relative;
+  margin: 10px;
+  padding: 0;
+  width: 100%;
+  max-width: 1200px;
+}
+</style>

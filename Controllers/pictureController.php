@@ -44,5 +44,25 @@ class pictureController extends defaultController
             $this->render("../publicArea");
         }
     }
+
+    function delete($id)
+    {
+        if(isset($_SESSION['is_logged_in'])){
+
+            require(ROOT . 'Models/Picture.php');
+            $picture = new Picture();
+            $picture->deletePicture($id);
+            //header("Location: /PHP_project_Modul151_MVC/");
+
+        }
+        else
+        {
+            require(ROOT . 'Models/Blog.php');
+            $blogs = new Blog();
+            $dbBlogs['blogs'] = $blogs->showAllBlogsSorted();
+            $this->set($dbBlogs);
+            $this->render("../publicArea");
+        }
+    }
 }
 ?>

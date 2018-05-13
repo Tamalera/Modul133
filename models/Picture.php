@@ -18,22 +18,28 @@ class Picture extends Model
         return $req->fetch();
     }
 
-    //Get all pictures
-    public function getAllPictures(){
-        $sql = "SELECT * FROM picture";
-        $req = Database::getBdd()->prepare($sql);
-        $req->execute();
-        return $req->fetchAll();
-    }
-
     //Delete one picture by ID
     public function deletePicture($pid){
-        //Delete picture from folder
-        //unlink($file)
-        //Delete picture from DB
-        $sql = 'DELETE FROM picture WHERE pictureID = ?';
+        //Delete picture from folder -> get image name
+        $sql = 'SELECT * FROM picture WHERE pictureID = ?';
         $req = Database::getBdd()->prepare($sql);
         $req->execute([$pid]);
+        $image = $req->fetch(PDO::FETCH_ASSOC);
+        //Set path and fileNames (of big and small picture)
+        $fileSmall = basename($image['pictureSmall']);
+        $fileBig = basename($image['pictureBig']);
+        $path = 'images/';
+        //Set permission to delete picture
+        chmod( $path.$fileSmall, 777 );
+        chmod( $path.$fileBig, 777 );
+        //Delete pics
+        unlink($path.$fileSmall);
+        unlink($path.$fileBig);
+
+        //Delete picture from DB
+        $sql2 = 'DELETE FROM picture WHERE pictureID = ?';
+        $req2 = Database::getBdd()->prepare($sql2);
+        $req2->execute([$pid]);
 
     }
 
@@ -44,26 +50,17 @@ class Picture extends Model
         // $req = Database::getBdd()->prepare($sql);
         // $req->execute([$blog_ID]);
         // $req->fetchAll();
+        // $path = 'images/';
         // foreach ($image as $req) {
         //     $big = basename($req['pictureBig']);
         //     $small = basename($req['pictureSmall']);
-        //     unlink($big);
-        //     unlink($small);
+        //     unlink($path.$big);
+        //     unlink($path.$small);
         // }
         //Delete picture from DB
         $sql2 = 'DELETE FROM picture WHERE blog_ID = ?';
         $req2 = Database::getBdd()->prepare($sql2);
         $req2->execute([$blog_ID]);
-    }
-
-    //Add picture to a blog -> get blog id by pic id and add pic
-     public function addPic($pid){
-        //First get blog_ID from picture itself
-
-        //Add new picture with default caption
-        $sql = 'UPDATE ';
-        $req = Database::getBdd()->prepare($sql);
-        $req->execute([$pid]);
     }
 
     //Change caption of a pic

@@ -9,6 +9,7 @@
         <textarea name="blogContent" type="text" class="form-control" id="blog_textarea" required><?php echo $blog["blogText"];?></textarea>
       </div>
       <input class="m-2" type="file" name="picUpload" id="picUpload"> <br>
+      <label for="picText">Caption</label>
       <input name="picText" type="text" class="form-control" id="picText" required>
       <br>
       <button name="editBlog" type="submit" class="btn btn-primary">Submit Blog</button>
