@@ -40,5 +40,15 @@ class User extends Model
             'role_id' => 2
         ]);
     }
+
+    public function getUserRole($username)
+    {
+        $sql = "SELECT role_ID FROM benutzer WHERE  username = ?";
+        $req = Database::getBdd()->prepare($sql);
+        $req->execute([$username]);
+        $user = $req->fetch(PDO::FETCH_ASSOC);
+        return $user['role_ID'];
+    }
+
 }
 ?>

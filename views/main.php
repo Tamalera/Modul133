@@ -34,6 +34,15 @@
               <div class="nav">
                 <a href="blog/create">Write Blog &nbsp</a>
                 <p class="text-light"><?php echo("{$_SESSION['username']}");?></p>
+                <?php
+                if (isset($_SESSION["admin"])) {
+                  echo '
+                  <form method="POST" action="admin/index">
+                    <button class="btn btn-sm btn-outline-secondary mr-2">Admin</button>
+                  </form>
+                  ';
+                }
+                ?>
                 <form method="POST" action="login/logout">
                   <button class="btn btn-sm btn-outline-secondary" name="logoutForm">Logout</button>
                 </form>

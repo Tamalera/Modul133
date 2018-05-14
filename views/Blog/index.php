@@ -48,6 +48,14 @@ foreach($blogs as $blog)
             </form>
           </div> <br>';
         }
+        if (isset($_SESSION["admin"]) && $blog['username'] != $_SESSION["username"]) {
+          echo '
+          <div class="d-flex row wrap justify-content-between">
+            <form method="post" action="blog/delete/'.$blog['blogID'].'">
+              <input type="submit" class="btn btn-danger btn-sm mt-1" name="action" value="X"/>
+            </form>
+          </div> <br>';
+        }
         echo '<h6>Likes: <span class="badge badge-secondary m-1">'.$blog['likes'].'</span></h6>';
       echo '</div>';
     echo '</div>';

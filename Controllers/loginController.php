@@ -27,6 +27,13 @@ class LoginController extends defaultController
 		    $_SESSION["is_logged_in"] = true;
 		    $_SESSION["username"] = $username;
 
+		    require_once(ROOT . 'Models/User.php');
+		    $user = new User();
+		    $userRole = $user->getUserRole($username);
+		    if ($userRole == 1) {
+		    	$_SESSION["admin"] = true;
+		    }
+
 		    require(ROOT . 'Models/Blog.php');
 	        $blogs = new Blog();
 	        $dbBlogs['blogs'] = $blogs->showAllBlogsSorted();

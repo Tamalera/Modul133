@@ -1,5 +1,4 @@
 <table class="table table-dark mt-4">
-	
   <thead>
     <tr>
       <th scope="col">Image</th>
