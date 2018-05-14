@@ -33,7 +33,7 @@
               ?>
               <div class="nav">
                 <a href="blog/create">Write Blog &nbsp</a>
-                <p class="text-light"><?php echo("{$_SESSION['username']}");?></p>
+                <p class="text-light mr-2"><?php echo("{$_SESSION['username']}");?></p>
                 <?php
                 if (isset($_SESSION["admin"])) {
                   echo '

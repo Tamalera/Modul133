@@ -97,17 +97,7 @@ class blogController extends defaultController
     {
         if(isset($_SESSION['is_logged_in'])){
             
-            //Also delete entry of all likes of this blog in Likes-Table
-            require(ROOT . 'Models/Like.php');
-            $deleteLikesOfBlog = new Like();
-            $deleteLikesOfBlog->deleteLike($id);
-
-            //Also delete picture all pictures of this blog
-            require(ROOT . 'Models/Picture.php');
-            $deletePicture = new Picture();
-            $deletePicture->deletePictureOfBlog($id);
-
-            //Delete actual blog
+            //Delete actual blog (in DB cascades)
             require(ROOT . 'Models/Blog.php');
             $deleteBlog = new Blog();
             $deleteBlog->delete($id);

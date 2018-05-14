@@ -50,5 +50,20 @@ class User extends Model
         return $user['role_ID'];
     }
 
+    public function getAllUsers()
+    {
+        $sql = "SELECT * FROM benutzer
+        LEFT JOIN role ON role.roleID = benutzer.role_ID";
+        $req = Database::getBdd()->prepare($sql);
+        $req->execute();
+        return $req->fetchAll();
+    }
+
+    public function deleteUser($id){
+        $sql = 'DELETE FROM benutzer WHERE userID = ?';
+        $req = Database::getBdd()->prepare($sql);
+        $req->execute([$id]);
+    }
+
 }
 ?>
