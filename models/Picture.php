@@ -50,11 +50,11 @@ class Picture extends Model
         $sql = 'SELECT * FROM picture WHERE blog_ID = ?';
         $req = Database::getBdd()->prepare($sql);
         $req->execute([$blog_ID]);
-        $req->fetchAll();
+        $req = $req->fetchAll();
         $path = 'images/';
-        foreach ($image as $req) {
-            $big = basename($req['pictureBig']);
-            $small = basename($req['pictureSmall']);
+        foreach ($req as $image) {
+            $big = basename($image['pictureBig']);
+            $small = basename($image['pictureSmall']);
             unlink($path.$big);
             unlink($path.$small);
         }
