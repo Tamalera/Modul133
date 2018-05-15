@@ -64,27 +64,43 @@ class Picture extends Model
     public function deletePictureOfUser($userID){
 
         $path = 'images/';
-
-        //Get all blogs from user
-        $sql = 'SELECT blogID FROM blog WHERE user_ID = ?';
+        //Get all picture from all blogs with this user-id
+        $sql = 'SELECT blog.blogID, picture.blog_ID, picture.pictureSmall, picture.pictureBig 
+        FROM blog 
+        LEFT JOIN picture on picture.blog_ID = blog.blogID 
+        WHERE user_ID = ?';
         $req = Database::getBdd()->prepare($sql);
         $req->execute([$userID]);
-        $req->fetchAll();
+        $req = $req->fetchAll();
 
-        foreach ($blog as $req) {
-            $sql2 = 'SELECT * FROM picture WHERE blog_ID = ?';
-            $req2 = Database::getBdd()->prepare($sql2);
-            $req2->execute([$blog]);
-            $req2->fetchAll();
-
-            //Delete picture from folder
-            foreach ($image as $req2) {
-                $big = basename($req['pictureBig']);
-                $small = basename($req['pictureSmall']);
-                unlink($path.$big);
-                unlink($path.$small);
-            }
+        foreach ($req as $image) {
+            $big = basename($image['pictureBig']);
+            $small = basename($image['pictureSmall']);
+            unlink($path.$big);
+            unlink($path.$small);
         }
+
+        // //Get all blogs from user
+        // $sql = 'SELECT blogID FROM blog WHERE user_ID = ?';
+        // $req = Database::getBdd()->prepare($sql);
+        // $req->execute([$userID]);
+        // $req = $req->fetchAll();
+
+        // foreach ($reg as $blog) {
+        //     //Get pictures from blog
+        //     $sql2 = 'SELECT * FROM picture WHERE blog_ID = ?';
+        //     $req2 = Database::getBdd()->prepare($sql2);
+        //     $req2->execute([$blog['blog_ID']]);
+        //     $req2 = $req2->fetchAll();
+
+        //     //Delete picture from folder
+        //     foreach ($req2 as $image) {
+        //         $big = basename($image['pictureBig']);
+        //         $small = basename($image['pictureSmall']);
+        //         unlink($path.$big);
+        //         unlink($path.$small);
+        //     }
+        // }
     }
 
     //Change caption of a pic

@@ -22,6 +22,13 @@ class adminController extends defaultController
 
     function delete($id){
         if(isset($_SESSION['is_logged_in'])){
+
+            //Remove pictures
+            require(ROOT . 'Models/Picture.php');
+            $picture = new Picture();
+            $picture->deletePictureOfUser($id);
+
+            //Remove user and its blogs (automatic with constraints)
             require(ROOT . 'Models/User.php');
             $user = new User();
             $user->deleteUser($id);
