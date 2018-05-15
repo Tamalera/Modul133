@@ -52,7 +52,7 @@ class pictureController extends defaultController
             require(ROOT . 'Models/Picture.php');
             $picture = new Picture();
             $picture->deletePicture($id);
-            //header("Location: /PHP_project_Modul151_MVC/");
+            header("Location: /PHP_project_Modul151_MVC/");
 
         }
         else

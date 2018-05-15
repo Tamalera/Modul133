@@ -10,7 +10,7 @@
       </div>
       <input class="m-2" type="file" name="picUpload" id="picUpload"> <br>
       <label for="picText">Caption</label>
-      <input name="picText" type="text" class="form-control" id="picText" required>
+      <input name="picText" type="text" class="form-control" id="picText">
       <br>
       <button name="editBlog" type="submit" class="btn btn-primary">Submit Blog</button>
   </form> 

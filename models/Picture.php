@@ -29,9 +29,10 @@ class Picture extends Model
         $fileSmall = basename($image['pictureSmall']);
         $fileBig = basename($image['pictureBig']);
         $path = 'images/';
-        //Set permission to delete picture
-        chmod( $path.$fileSmall, 777 );
-        chmod( $path.$fileBig, 777 );
+
+        chmod($path.$fileSmall, 666);
+        chmod($path.$fileBig, 666);
+
         //Delete pics
         unlink($path.$fileSmall);
         unlink($path.$fileBig);
@@ -46,21 +47,44 @@ class Picture extends Model
     //Delete all pictures of a blog
     public function deletePictureOfBlog($blog_ID){
         //Delete picture from folder
-        // $sql = 'SELECT * FROM picture WHERE blog_ID = ?';
-        // $req = Database::getBdd()->prepare($sql);
-        // $req->execute([$blog_ID]);
-        // $req->fetchAll();
-        // $path = 'images/';
-        // foreach ($image as $req) {
-        //     $big = basename($req['pictureBig']);
-        //     $small = basename($req['pictureSmall']);
-        //     unlink($path.$big);
-        //     unlink($path.$small);
-        // }
-        //Delete picture from DB
-        $sql2 = 'DELETE FROM picture WHERE blog_ID = ?';
-        $req2 = Database::getBdd()->prepare($sql2);
-        $req2->execute([$blog_ID]);
+        $sql = 'SELECT * FROM picture WHERE blog_ID = ?';
+        $req = Database::getBdd()->prepare($sql);
+        $req->execute([$blog_ID]);
+        $req->fetchAll();
+        $path = 'images/';
+        foreach ($image as $req) {
+            $big = basename($req['pictureBig']);
+            $small = basename($req['pictureSmall']);
+            unlink($path.$big);
+            unlink($path.$small);
+        }
+    }
+
+    //Delete all pictures of a user
+    public function deletePictureOfUser($userID){
+
+        $path = 'images/';
+
+        //Get all blogs from user
+        $sql = 'SELECT blogID FROM blog WHERE user_ID = ?';
+        $req = Database::getBdd()->prepare($sql);
+        $req->execute([$userID]);
+        $req->fetchAll();
+
+        foreach ($blog as $req) {
+            $sql2 = 'SELECT * FROM picture WHERE blog_ID = ?';
+            $req2 = Database::getBdd()->prepare($sql2);
+            $req2->execute([$blog]);
+            $req2->fetchAll();
+
+            //Delete picture from folder
+            foreach ($image as $req2) {
+                $big = basename($req['pictureBig']);
+                $small = basename($req['pictureSmall']);
+                unlink($path.$big);
+                unlink($path.$small);
+            }
+        }
     }
 
     //Change caption of a pic
@@ -77,6 +101,9 @@ class Picture extends Model
     //Add a picure when creating or editing a blog
     public function addPicture($caption)
     {
+        //Show html text verbatim
+        $caption = htmlentities($caption);
+        
         //Set directory to save file(s)
         $imageDirectory = ROOT . "images/";
 

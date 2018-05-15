@@ -19,9 +19,11 @@
 	      	'?>
 	      </td>
 	      <td>
+          <?php echo '
 	      	<form method="POST" action="picture/delete/'.$image['pictureID'].'">
               <input type="submit" class="btn btn-danger btn-sm mt-1" name="action" value="X"/>
             </form>
+          '?>
 	      </td>
 	    </tr>
 	  </tbody>

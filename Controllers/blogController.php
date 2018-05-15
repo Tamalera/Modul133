@@ -97,6 +97,8 @@ class blogController extends defaultController
     {
         if(isset($_SESSION['is_logged_in'])){
             
+            //First remove picture(s)
+            
             //Delete actual blog (in DB cascades)
             require(ROOT . 'Models/Blog.php');
             $deleteBlog = new Blog();

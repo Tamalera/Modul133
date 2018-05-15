@@ -3,6 +3,9 @@ class Blog extends Model
 {
     public function create($title, $blogText)
     {
+        //Show html text verbatim
+        $title = htmlentities($title);
+        $blogText = htmlentities($blogText);
         $blogDate = date('Y-m-d H:i:s');
 
         //Get user (have username, need ID)
@@ -62,6 +65,10 @@ class Blog extends Model
 
     public function edit($id, $title, $blogText)
     {
+        //Show html text verbatim
+        $title = htmlentities($title);
+        $blogText = htmlentities($blogText);
+
         $newDate = date('Y-m-d H:i:s');
         $sql = "UPDATE blog SET title = :title, blogText = :blogText, blogDate = :newDate WHERE blogID = :id";
         $req = Database::getBdd()->prepare($sql);
